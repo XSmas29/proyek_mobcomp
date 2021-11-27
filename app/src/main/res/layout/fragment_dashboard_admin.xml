@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    tools:context=".DashboardAdminFragment">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="20dp">
+        <ImageView
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:src="@drawable/ic_baseline_person_24"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center">
+            <TextView
+                android:id="@+id/textView_welcomeAdmin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Welcome, Admin"
+                android:textSize="26sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Hai, apa kabar hari ini?"/>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="News"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_marginBottom="5dp"/>
+        <TextView
+            android:id="@+id/textView_jumCustBaru"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ada n Customer baru lho 1 minggu ini!"
+            android:layout_marginBottom="5dp"/>
+        <TextView
+            android:id="@+id/textView_jumSellerBaru"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ada n Seller baru bergabung 1 minggu ini!"/>
+        <TextView
+            android:id="@+id/textView_jumTopUpBaru"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ada n Top Up yang belum dikonfirmasi!"/>
+        <TextView
+            android:id="@+id/textView_jumWithdrawBaru"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ada n Withdraw yang belum dikonfirmasi!"/>
+    </LinearLayout>
+</LinearLayout>
