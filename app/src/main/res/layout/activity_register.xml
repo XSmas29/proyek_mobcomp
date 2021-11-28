@@ -175,6 +175,7 @@
                 android:backgroundTint="@android:color/holo_orange_dark"
                 android:onClick="Register"
                 android:text="Register"
+                android:enabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etLoginPassword" />

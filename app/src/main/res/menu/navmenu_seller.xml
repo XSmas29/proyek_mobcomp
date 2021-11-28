@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:icon="@drawable/ic_home"
+        android:title="Dashboard"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/Addbarang"
+        android:icon="@drawable/ic_add"
+        android:title="Add Barang"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/Saldo"
+        android:icon="@drawable/ic_baseline_attach_money_24"
+        android:title="Saldo"
+        app:showAsAction="always" />
+    <item
+        android:icon="@android:drawable/ic_menu_recent_history"
+        android:title="History"
+        app:showAsAction="always" />
+
+</menu>
