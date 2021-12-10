@@ -1,16 +1,14 @@
 package com.example.proyek_mobcomp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,9 +24,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.proyek_mobcomp.classFolder.cProduct;
+import com.example.proyek_mobcomp.classFolder.cWishlist;
 import com.example.proyek_mobcomp.databinding.FragmentCustomerHomeBinding;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
 import com.synnapps.carouselview.ImageClickListener;
 import com.synnapps.carouselview.ImageListener;
@@ -37,7 +35,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -123,8 +120,8 @@ public class CustomerHomeFragment extends Fragment {
                                         Picasso.get().load(getResources().getString(R.string.url) + "/produk/" +
                                                 CustomerHomeActivity.listCarousel.get(position).getGambar()).into(imageView);
 //                                        Picasso.get().load(getResources().getString(R.string.url) + "/produk/produk_3.jpg").into(imageView);
-                                        System.out.println(getResources().getString(R.string.url) + "/produk/" +
-                                                CustomerHomeActivity.listCarousel.get(position).getGambar());
+//                                        System.out.println(getResources().getString(R.string.url) + "/produk/" +
+//                                                CustomerHomeActivity.listCarousel.get(position).getGambar());
                                     }
                                 };
 
@@ -133,7 +130,10 @@ public class CustomerHomeFragment extends Fragment {
                                 binding.carouselView.setImageClickListener(new ImageClickListener() {
                                     @Override
                                     public void onClick(int position) {
-                                        getProductDetail(CustomerHomeActivity.listCarousel.get(position).getId());
+                                        //getProductDetail(CustomerHomeActivity.listCarousel.get(position).getId());
+                                        Intent i = new Intent(getActivity(), CustomerDetailProduct.class);
+                                        i.putExtra("idproduct", CustomerHomeActivity.listCarousel.get(position).getId());
+                                        getActivity().startActivityForResult(i, 100);
                                     }
                                 });
                             }
@@ -145,7 +145,7 @@ public class CustomerHomeFragment extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        System.out.println("error load carousel " + error);
+                        System.out.println("error load carousel " + error.getMessage());
                     }
                 }
         ){
@@ -164,7 +164,7 @@ public class CustomerHomeFragment extends Fragment {
     private void showProductByKategori() {
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
-                getResources().getString(R.string.url) + "/showproductbykategori",
+                getResources().getString(R.string.url) + "/customer/showproductbykategori",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -206,6 +206,17 @@ public class CustomerHomeFragment extends Fragment {
                             }
 
 
+                            JSONArray arrayWishlist = jsonObject.getJSONArray("datawishlist");
+                            CustomerHomeActivity.arrayListWishlist.clear();
+                            for (int i = 0; i < arrayWishlist.length(); i++){
+                                int id = arrayWishlist.getJSONObject(i).getInt("id");
+                                String fk_user = arrayWishlist.getJSONObject(i).getString("fk_user");
+                                int fk_barang = arrayWishlist.getJSONObject(i).getInt("fk_barang");
+
+                                CustomerHomeActivity.arrayListWishlist.add(
+                                  new cWishlist(id, fk_user, fk_barang)
+                                );
+                            }
 
                             setRvProduct();
 
@@ -273,71 +284,71 @@ public class CustomerHomeFragment extends Fragment {
         popupMenu.show();
     }
 
-    protected void getProductDetail(int id){
-        StringRequest stringRequest = new StringRequest(
-                Request.Method.POST,
-                getResources().getString(R.string.url) + "/customer/getdetailproduct",
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        System.out.println(response);
-
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-
-                            JSONObject productObject = jsonObject.getJSONObject("datadetailproduct");
-//                            for (int i = 0; i < arrayProduct.length(); i ++){
-                            int id = productObject.getInt("id");
-                            String fk_seller = productObject.getString("fk_seller");
-                            int fk_kategori = productObject.getInt("fk_kategori");
-                            String nama = productObject.getString("nama");
-                            String deskripsi = productObject.getString("deskripsi");
-                            int harga = productObject.getInt("harga");
-                            int stok =productObject.getInt("stok");
-                            String gambar = productObject.getString("gambar");
-
-                            product = new cProduct(id, fk_seller, fk_kategori, nama, deskripsi, harga, stok, gambar);
+//    protected void getProductDetail(int id){
+//        StringRequest stringRequest = new StringRequest(
+//                Request.Method.POST,
+//                getResources().getString(R.string.url) + "/customer/getdetailproduct",
+//                new Response.Listener<String>() {
+//                    @Override
+//                    public void onResponse(String response) {
+//                        System.out.println(response);
+//
+//                        try {
+//                            JSONObject jsonObject = new JSONObject(response);
+//
+//                            JSONObject productObject = jsonObject.getJSONObject("datadetailproduct");
+////                            for (int i = 0; i < arrayProduct.length(); i ++){
+//                            int id = productObject.getInt("id");
+//                            String fk_seller = productObject.getString("fk_seller");
+//                            int fk_kategori = productObject.getInt("fk_kategori");
+//                            String nama = productObject.getString("nama");
+//                            String deskripsi = productObject.getString("deskripsi");
+//                            int harga = productObject.getInt("harga");
+//                            int stok =productObject.getInt("stok");
+//                            String gambar = productObject.getString("gambar");
+//
+//                            product = new cProduct(id, fk_seller, fk_kategori, nama, deskripsi, harga, stok, gambar);
+////                            }
+//                            System.out.println("test");
+//                            JSONArray arrayRecProduct = jsonObject.getJSONArray("datarecommendproduct");
+//                            for (int i = 0; i < arrayRecProduct.length(); i ++){
+//                                id = arrayRecProduct.getJSONObject(i).getInt("id");
+//                                fk_seller = arrayRecProduct.getJSONObject(i).getString("fk_seller");
+//                                fk_kategori = arrayRecProduct.getJSONObject(i).getInt("fk_kategori");
+//                                nama = arrayRecProduct.getJSONObject(i).getString("nama");
+//                                deskripsi = arrayRecProduct.getJSONObject(i).getString("deskripsi");
+//                                harga = arrayRecProduct.getJSONObject(i).getInt("harga");
+//                                stok = arrayRecProduct.getJSONObject(i).getInt("stok");
+//                                gambar = arrayRecProduct.getJSONObject(i).getString("gambar");
+//
+//                                arrRecommendationProduct.add(new cProduct(id, fk_seller, fk_kategori, nama, deskripsi, harga, stok, gambar));
 //                            }
-                            System.out.println("test");
-                            JSONArray arrayRecProduct = jsonObject.getJSONArray("datarecommendproduct");
-                            for (int i = 0; i < arrayRecProduct.length(); i ++){
-                                id = arrayRecProduct.getJSONObject(i).getInt("id");
-                                fk_seller = arrayRecProduct.getJSONObject(i).getString("fk_seller");
-                                fk_kategori = arrayRecProduct.getJSONObject(i).getInt("fk_kategori");
-                                nama = arrayRecProduct.getJSONObject(i).getString("nama");
-                                deskripsi = arrayRecProduct.getJSONObject(i).getString("deskripsi");
-                                harga = arrayRecProduct.getJSONObject(i).getInt("harga");
-                                stok = arrayRecProduct.getJSONObject(i).getInt("stok");
-                                gambar = arrayRecProduct.getJSONObject(i).getString("gambar");
-
-                                arrRecommendationProduct.add(new cProduct(id, fk_seller, fk_kategori, nama, deskripsi, harga, stok, gambar));
-                            }
-
-                            showProduct();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            System.out.println(e.getMessage());
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        System.out.println("error getdetailproduct = " + error.getMessage());
-                    }
-                }
-        ){
-            @Nullable
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("function","getdetailproduct");
-                params.put("idproduct", String.valueOf(id));
-                return params;
-            }
-        };
-
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
-    }
+//
+//                            showProduct();
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                            System.out.println(e.getMessage());
+//                        }
+//                    }
+//                },
+//                new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//                        System.out.println("error getdetailproduct = " + error.getMessage());
+//                    }
+//                }
+//        ){
+//            @Nullable
+//            @Override
+//            protected Map<String, String> getParams() throws AuthFailureError {
+//                Map<String, String> params = new HashMap<>();
+//                params.put("function","getdetailproduct");
+//                params.put("idproduct", String.valueOf(id));
+//                return params;
+//            }
+//        };
+//
+//        RequestQueue requestQueue = Volley.newRequestQueue(this);
+//        requestQueue.add(stringRequest);
+//    }
 }

@@ -4,17 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.ContextMenu;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
 
+import com.example.proyek_mobcomp.classFolder.cProduct;
+import com.example.proyek_mobcomp.classFolder.cWishlist;
 import com.example.proyek_mobcomp.databinding.ActivityCustomerHomeBinding;
-import com.example.proyek_mobcomp.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
@@ -24,10 +19,11 @@ public class CustomerHomeActivity extends AppCompatActivity {
 
     public static ArrayList<cKategori> arrayListKategori = new ArrayList<>();
     public static ArrayList<cProduct> arrayListProduct = new ArrayList<>();
+    public static ArrayList<cWishlist> arrayListWishlist = new ArrayList<>();
 
     public static ArrayList<cProduct> listCarousel = new ArrayList<>();
 
-    String login;
+    public static String login;
 
     public void showFragment(int idx) {
         Bundle bundle = new Bundle();
@@ -39,12 +35,18 @@ public class CustomerHomeActivity extends AppCompatActivity {
             fragmentTransaction.replace(R.id.frContainer, customerHomeFragment);
             fragmentTransaction.commit();
         }else if (idx == 1){
-            CustomerSearchFragment customerSearchFragment = new CustomerSearchFragment();
-            customerSearchFragment.setArguments(bundle);
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.frContainer, customerSearchFragment);
-            fragmentTransaction.commit();
+//            CustomerSearchFragment customerSearchFragment = new CustomerSearchFragment();
+//            customerSearchFragment.setArguments(bundle);
+//            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//            fragmentTransaction.replace(R.id.frContainer, customerSearchFragment);
+//            fragmentTransaction.commit();
         }else if (idx == 2){
+//            CustomerCartFragment customerCartFragment = new CustomerCartFragment();
+//            customerCartFragment.setArguments(bundle);
+//            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//            fragmentTransaction.replace(R.id.frContainer, customerCartFragment);
+//            fragmentTransaction.commit();
+        }else if (idx == 3){
             CustomerCartFragment customerCartFragment = new CustomerCartFragment();
             customerCartFragment.setArguments(bundle);
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -70,11 +72,14 @@ public class CustomerHomeActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if(item.getItemId() == R.id.customerhome) {
                     showFragment(0);
-                }else if(item.getItemId() == R.id.customersearch) {
+                }else if(item.getItemId() == R.id.customertransaksi) {
                     showFragment(1);
                 }
-                else if(item.getItemId() == R.id.customercart) {
+                else if(item.getItemId() == R.id.customerwishlist) {
                     showFragment(2);
+                }
+                else if(item.getItemId() == R.id.customercart) {
+                    showFragment(3);
                 }
                 return true;
             }

@@ -1,4 +1,4 @@
-package com.example.proyek_mobcomp;
+package com.example.proyek_mobcomp.classFolder;
 
 import android.os.Parcel;
 import android.os.Parcelable;

@@ -18,15 +18,14 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.proyek_mobcomp.classFolder.cUser;
 import com.example.proyek_mobcomp.databinding.ActivityMainBinding;
-import com.example.proyek_mobcomp.databinding.ActivityRegisterBinding;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
