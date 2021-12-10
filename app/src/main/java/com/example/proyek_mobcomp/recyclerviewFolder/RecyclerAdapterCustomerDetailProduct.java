@@ -1,4 +1,4 @@
-package com.example.proyek_mobcomp;
+package com.example.proyek_mobcomp.recyclerviewFolder;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,25 +13,25 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.proyek_mobcomp.CustomerDetailProduct;
+import com.example.proyek_mobcomp.CustomerHomeActivity;
+import com.example.proyek_mobcomp.R;
 import com.example.proyek_mobcomp.classFolder.cProduct;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class RecyclerAdapterCustomerHomeProduct extends RecyclerView.Adapter<RecyclerAdapterCustomerHomeProduct.ViewHolder> {
-
-    ArrayList<cKategori> arrKategori = new ArrayList<>();
-    ArrayList<cProduct> arrProduct = new ArrayList<>();
-
-    public RecyclerAdapterCustomerHomeProduct(ArrayList<cKategori> arrKategori, ArrayList<cProduct> arrProduct) {
-        this.arrKategori = arrKategori;
+public class RecyclerAdapterCustomerDetailProduct extends RecyclerView.Adapter<RecyclerAdapterCustomerDetailProduct.ViewHolder> {
+    protected ArrayList<cProduct> arrProduct = new ArrayList<>();
+    protected int ctrBarang = 0;
+    public RecyclerAdapterCustomerDetailProduct(ArrayList<cProduct> arrProduct) {
         this.arrProduct = arrProduct;
+        //System.out.println(this.arrProduct.size());
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
+    public RecyclerAdapterCustomerDetailProduct.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
@@ -39,18 +39,17 @@ public class RecyclerAdapterCustomerHomeProduct extends RecyclerView.Adapter<Rec
 
         ViewHolder viewHolder = new ViewHolder(contactView);
         return viewHolder;
-
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        cKategori kategori = arrKategori.get(position);
-        holder.bind(kategori, position);
+    public void onBindViewHolder(@NonNull RecyclerAdapterCustomerDetailProduct.ViewHolder holder, int position) {
+        cProduct product = arrProduct.get(position);
+        holder.bind(product, position);
     }
 
     @Override
     public int getItemCount() {
-        return arrKategori.size();
+        return 0;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -62,7 +61,6 @@ public class RecyclerAdapterCustomerHomeProduct extends RecyclerView.Adapter<Rec
         TextView[] arrTxtHargaProduct = new TextView[5];
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
             llKategoriContainer = itemView.findViewById(R.id.llKategoriContainer);
             llProductContainer = itemView.findViewById(R.id.llProductContainer);
             txtNamaKategori = itemView.findViewById(R.id.textView_namaKategori);
@@ -92,38 +90,32 @@ public class RecyclerAdapterCustomerHomeProduct extends RecyclerView.Adapter<Rec
             arrTxtHargaProduct[4] = itemView.findViewById(R.id.textView_hargaProduct4);
         }
 
-        public void bind(cKategori kategori, int position) {
-            int ctrBarang = 0;
+        public void bind(cProduct product, int position) {
+//            if (ctrBarang < 5) {
+//                Picasso.get().load(itemView.getResources().getString(R.string.url) + "/produk/" +
+//                        product.getGambar()).into(arrImageView[ctrBarang]);
+//
+//                ViewGroup.LayoutParams params = arrImageView[ctrBarang].getLayoutParams();
+//                params.height = 120;
+//                arrImageView[ctrBarang].setLayoutParams(params);
+//
+//                arrTxtNamaProduct[ctrBarang].setText(product.getNama());
+//                arrTxtHargaProduct[ctrBarang].setText("Rp " + product.getHarga());
+//
+//                int idProduct = product.getId();
+//                arrLlProduct[0].setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Intent i = new Intent(itemView.getContext(), CustomerDetailProduct.class);
+//                        i.putExtra("idproduct", idProduct);
+//                        i.putExtra("login", CustomerHomeActivity.login);
+//                        ((Activity) itemView.getContext()).startActivityForResult(i, 100);
+//                    }
+//                });
+//
+//                ctrBarang++;
+//            }
 
-            txtNamaKategori.setText("Produk di " + kategori.getNama() + " yang mungkin kamu suka");
-
-
-            for (int j = 0; j < arrProduct.size();j++){
-                if (ctrBarang < 5){
-                    if (arrProduct.get(j).getFk_kategori() == kategori.getId()){
-                        Picasso.get().load(itemView.getResources().getString(R.string.url) + "/produk/" +
-                                arrProduct.get(j).getGambar()).into(arrImageView[ctrBarang]);
-
-                        ViewGroup.LayoutParams params = arrImageView[ctrBarang].getLayoutParams();
-                        params.height = 120;
-                        arrImageView[ctrBarang].setLayoutParams(params);
-
-                        arrTxtNamaProduct[ctrBarang].setText(arrProduct.get(j).getNama());
-                        arrTxtHargaProduct[ctrBarang].setText("Rp " + arrProduct.get(j).getHarga());
-
-                        int idProduct = arrProduct.get(j).getId();
-                        arrLlProduct[ctrBarang].setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent i = new Intent(itemView.getContext(), CustomerDetailProduct.class);
-                                i.putExtra("idproduct", idProduct);
-                                ((Activity)itemView.getContext()).startActivityForResult(i, 100);
-                            }
-                        });
-                        ctrBarang++;
-                    }
-                }
-            }
 
         }
     }

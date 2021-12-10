@@ -2,9 +2,17 @@ package com.example.proyek_mobcomp;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -14,7 +22,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.proyek_mobcomp.classFolder.cProduct;
+import com.example.proyek_mobcomp.classFolder.cWishlist;
 import com.example.proyek_mobcomp.databinding.ActivityCustomerDetailProductBinding;
+import com.example.proyek_mobcomp.recyclerviewFolder.RecyclerAdapterCustomerDetailProduct;
+import com.example.proyek_mobcomp.recyclerviewFolder.RecyclerAdapterCustomerHomeProduct;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -35,6 +46,20 @@ public class CustomerDetailProduct extends AppCompatActivity {
     int isWishlisted  = 0; // 0 = not wishlist, 1 = wishlisted
     int idWishlist = -1; // id wishlist, jika diwishlist
 
+    String username = CustomerHomeActivity.login;
+
+
+    LinearLayout llKategoriContainer, llProductContainer;
+    TextView txtNamaKategori;
+    LinearLayout[] arrLlProduct = new LinearLayout[5];
+    ImageView[] arrImageView = new ImageView[5];
+    TextView[] arrTxtNamaProduct = new TextView[5];
+    TextView[] arrTxtHargaProduct = new TextView[5];
+
+    //RecyclerAdapterCustomerDetailProduct recyclerAdapterCustomerDetailProduct;
+
+    //RecyclerAdapterCustomerHomeProduct recyclerAdapterCustomerHomeProduct;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,8 +68,37 @@ public class CustomerDetailProduct extends AppCompatActivity {
         binding = ActivityCustomerDetailProductBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        idProduct = getIntent().getIntExtra("idproduct", -1);
 
+        llProductContainer = findViewById(R.id.llProductContainer);
+
+        arrLlProduct[0] = findViewById(R.id.ll0);
+        arrLlProduct[1] = findViewById(R.id.ll1);
+        arrLlProduct[2] = findViewById(R.id.ll2);
+        arrLlProduct[3] = findViewById(R.id.ll3);
+        arrLlProduct[4] = findViewById(R.id.ll4);
+
+        arrImageView[0] = findViewById(R.id.imageView_product0);
+        arrImageView[1] = findViewById(R.id.imageView_product1);
+        arrImageView[2] = findViewById(R.id.imageView_product2);
+        arrImageView[3] = findViewById(R.id.imageView_product3);
+        arrImageView[4] = findViewById(R.id.imageView_product4);
+
+        arrTxtNamaProduct[0] = findViewById(R.id.textView_namaProduct0);
+        arrTxtNamaProduct[1] = findViewById(R.id.textView_namaProduct1);
+        arrTxtNamaProduct[2] = findViewById(R.id.textView_namaProduct2);
+        arrTxtNamaProduct[3] = findViewById(R.id.textView_namaProduct3);
+        arrTxtNamaProduct[4] = findViewById(R.id.textView_namaProduct4);
+
+        arrTxtHargaProduct[0] = findViewById(R.id.textView_hargaProduct0);
+        arrTxtHargaProduct[1] = findViewById(R.id.textView_hargaProduct1);
+        arrTxtHargaProduct[2] = findViewById(R.id.textView_hargaProduct2);
+        arrTxtHargaProduct[3] = findViewById(R.id.textView_hargaProduct3);
+        arrTxtHargaProduct[4] = findViewById(R.id.textView_hargaProduct4);
+
+        idProduct = getIntent().getIntExtra("idproduct", -1);
+        username = getIntent().getStringExtra("login");
+
+        //Toast.makeText(this, username, Toast.LENGTH_SHORT).show();
         if (idProduct != -1) {
             getProductDetail();
         }
@@ -54,14 +108,81 @@ public class CustomerDetailProduct extends AppCompatActivity {
         binding.imageButtonWishlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                binding.imageButtonWishlist.setImageResource(R.drawable.ic_baseline_favorite_border_24);
-                isWishlisted = 0;
-                idWishlist = -1;
+                StringRequest stringRequest = new StringRequest(
+                        Request.Method.POST,
+                        getResources().getString(R.string.url) + "/customer/updatewishlist",
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                System.out.println(response);
+
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response);
+
+                                    int code = jsonObject.getInt("code");
+                                    String message = jsonObject.getString("message");
+
+                                    JSONArray arrayWishlist = jsonObject.getJSONArray("datawishlist");
+                                    CustomerHomeActivity.arrayListWishlist.clear();
+                                    for (int i = 0; i < arrayWishlist.length(); i++){
+                                        int id = arrayWishlist.getJSONObject(i).getInt("id");
+                                        String fk_user = arrayWishlist.getJSONObject(i).getString("fk_user");
+                                        int fk_barang = arrayWishlist.getJSONObject(i).getInt("fk_barang");
+
+                                        CustomerHomeActivity.arrayListWishlist.add(
+                                                new cWishlist(id, fk_user, fk_barang)
+                                        );
+                                    }
+
+                                    if (isWishlisted == 1){
+                                        binding.imageButtonWishlist.setImageResource(R.drawable.ic_baseline_favorite_border_24);
+                                        isWishlisted = 0;
+                                        idWishlist = -1;
+                                    }
+
+
+                                    showIsWishlist();
+                                    Toast.makeText(getBaseContext(), message+"", Toast.LENGTH_SHORT).show();
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                System.out.println("error update wishlist : " + error);
+                            }
+                        }
+
+                ){
+                    @Nullable
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String, String> params = new HashMap<>();
+                        if (isWishlisted == 0){
+                            System.out.println("test1");
+                            params.put("function","addwishlist");
+                            params.put("idproduct", String.valueOf(idProduct));
+                            params.put("username", username);
+                        }else {
+                            System.out.println("test2");
+                            params.put("function","deletewishlist");
+                            params.put("idwishlist", idWishlist+"");
+                        }
+
+                        return params;
+                    }
+                };
+
+                RequestQueue requestQueue = Volley.newRequestQueue(getBaseContext());
+                requestQueue.add(stringRequest);
             }
         });
     }
 
-    protected void getProductDetail(){
+    protected void getProductDetail(){ // mendapatkan data detail product tersebut juga recommendnya
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
                 getResources().getString(R.string.url) + "/customer/getdetailproduct",
@@ -104,6 +225,7 @@ public class CustomerDetailProduct extends AppCompatActivity {
                             }
 
                             showProduct();
+//                            setRv();
                         } catch (JSONException e) {
                             e.printStackTrace();
                             System.out.println(e.getMessage());
@@ -131,6 +253,30 @@ public class CustomerDetailProduct extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
+    private void setRv() {
+//        binding.recyclerViewDetailpageRecomendation.setLayoutManager(new LinearLayoutManager(this));
+//        binding.recyclerViewDetailpageRecomendation.setHasFixedSize(true);
+//
+//        recyclerAdapterCustomerDetailProduct = new RecyclerAdapterCustomerDetailProduct(
+//                arrRecommendationProduct
+//        );
+//        binding.recyclerViewDetailpageRecomendation.setAdapter(recyclerAdapterCustomerDetailProduct);
+
+
+
+//        binding.recyclerViewDetailpageRecomendation.setLayoutManager(new LinearLayoutManager(getBaseContext()));
+//        binding.recyclerViewDetailpageRecomendation.setHasFixedSize(true);
+//
+//        ArrayList<cKategori> arrKategoriProduct = new ArrayList<>();
+//
+//
+//        recyclerAdapterCustomerHomeProduct = new RecyclerAdapterCustomerHomeProduct(
+//                CustomerHomeActivity.arrayListKategori,
+//                CustomerHomeActivity.arrayListProduct
+//        );
+//        binding.recyclerViewDetailpageRecomendation.setAdapter(recyclerAdapterCustomerHomeProduct);
+    }
+
     protected void showProduct() {
         Picasso.get().load(getResources().getString(R.string.url) + "/produk/" +
                 product.getGambar()).into(binding.imageViewProductPicture);
@@ -139,13 +285,47 @@ public class CustomerDetailProduct extends AppCompatActivity {
         binding.textViewProductPrice.setText("Rp " + product.getHarga());
         binding.textViewProductDescription.setText("Detail produk : \n"+product.getDeskripsi());
 
+        showIsWishlist();
+
+        int ctrBarang = 0;
+        // show recommendation product
+        for (int i = 0; i < arrRecommendationProduct.size(); i++){
+            if (ctrBarang < 5){
+                Picasso.get().load(getResources().getString(R.string.url) + "/produk/" +
+                        arrRecommendationProduct.get(i).getGambar()).into(arrImageView[ctrBarang]);
+
+                ViewGroup.LayoutParams params = arrImageView[ctrBarang].getLayoutParams();
+                params.height = 120;
+                arrImageView[ctrBarang].setLayoutParams(params);
+
+                arrTxtNamaProduct[ctrBarang].setText(arrRecommendationProduct.get(i).getNama());
+                arrTxtHargaProduct[ctrBarang].setText("Rp " + arrRecommendationProduct.get(i).getHarga());
+
+                int idProduct = arrRecommendationProduct.get(i).getId();
+                arrLlProduct[ctrBarang].setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(CustomerDetailProduct.this, CustomerDetailProduct.class);
+                        i.putExtra("idproduct", idProduct);
+                        i.putExtra("login", CustomerHomeActivity.login);
+                        startActivityForResult(i, 100);
+                    }
+                });
+                ctrBarang++;
+
+            }
+        }
+    }
+
+    protected void showIsWishlist(){
         for (int i = 0; i < CustomerHomeActivity.arrayListWishlist.size(); i++){
             if (CustomerHomeActivity.arrayListWishlist.get(i).getFk_barang() == product.getId()
-                && CustomerHomeActivity.arrayListWishlist.get(i).getFk_user().equals(CustomerHomeActivity.login)){
+                    && CustomerHomeActivity.arrayListWishlist.get(i).getFk_user().equals(CustomerHomeActivity.login)){
                 binding.imageButtonWishlist.setImageResource(R.drawable.ic_baseline_favorite_24);
                 isWishlisted = 1;
                 idWishlist = CustomerHomeActivity.arrayListWishlist.get(i).getId();
             }
         }
+
     }
 }

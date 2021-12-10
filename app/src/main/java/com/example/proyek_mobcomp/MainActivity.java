@@ -59,9 +59,11 @@ public class MainActivity extends AppCompatActivity {
 
             if (user.getRole().equalsIgnoreCase("CUSTOMER")){
                 Intent i = new Intent(this, CustomerHomeActivity.class);
+                i.putExtra("login", user.getUsername());
                 startActivity(i);
             }else{
                 Intent i = new Intent(this, SellerActivity.class);
+                i.putExtra("login", user.getUsername());
                 startActivity(i);
             }
         }
