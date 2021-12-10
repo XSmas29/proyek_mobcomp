@@ -25,6 +25,8 @@ public class CustomerHomeActivity extends AppCompatActivity {
     public static ArrayList<cKategori> arrayListKategori = new ArrayList<>();
     public static ArrayList<cProduct> arrayListProduct = new ArrayList<>();
 
+    public static ArrayList<cProduct> listCarousel = new ArrayList<>();
+
     String login;
 
     public void showFragment(int idx) {

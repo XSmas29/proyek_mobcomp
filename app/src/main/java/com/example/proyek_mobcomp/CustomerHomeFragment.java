@@ -15,7 +15,9 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -27,6 +29,9 @@ import com.android.volley.toolbox.Volley;
 import com.example.proyek_mobcomp.databinding.FragmentCustomerHomeBinding;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.squareup.picasso.Picasso;
+import com.synnapps.carouselview.ImageClickListener;
+import com.synnapps.carouselview.ImageListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -80,10 +85,80 @@ public class CustomerHomeFragment extends Fragment {
                 showPopUp(v);
             }
         });
-
+        loadcarousel();
         showProductByKategori();
 
         return binding.getRoot();
+    }
+
+    private void loadcarousel() {
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.POST,
+                getResources().getString(R.string.url) + "/loadcarousel",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        System.out.println(response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            System.out.println(jsonObject);
+                            JSONArray arraycarousel = jsonObject.getJSONArray("foto");
+                            if (arraycarousel != null) {
+                                for (int i = 0; i < arraycarousel.length(); i++){
+                                    int id = arraycarousel.getJSONObject(i).getInt("id");
+                                    String fk_seller = arraycarousel.getJSONObject(i).getString("fk_seller");
+                                    int fk_kategori = arraycarousel.getJSONObject(i).getInt("fk_kategori");
+                                    String nama = arraycarousel.getJSONObject(i).getString("nama");
+                                    String deskripsi = arraycarousel.getJSONObject(i).getString("deskripsi");
+                                    int harga = arraycarousel.getJSONObject(i).getInt("harga");
+                                    int stok = arraycarousel.getJSONObject(i).getInt("stok");
+                                    String gambar = arraycarousel.getJSONObject(i).getString("gambar");
+
+                                    CustomerHomeActivity.listCarousel.add(new cProduct(id, fk_seller, fk_kategori, nama, deskripsi, harga, stok, gambar));
+                                }
+
+                                ImageListener imageListener = new ImageListener() {
+                                    @Override
+                                    public void setImageForPosition(int position, ImageView imageView) {
+                                        Picasso.get().load(getResources().getString(R.string.url) + "/produk/" +
+                                                CustomerHomeActivity.listCarousel.get(position).getGambar()).into(imageView);
+//                                        Picasso.get().load(getResources().getString(R.string.url) + "/produk/produk_3.jpg").into(imageView);
+                                        System.out.println(getResources().getString(R.string.url) + "/produk/" +
+                                                CustomerHomeActivity.listCarousel.get(position).getGambar());
+                                    }
+                                };
+
+                                binding.carouselView.setImageListener(imageListener);
+                                binding.carouselView.setPageCount(8);
+                                binding.carouselView.setImageClickListener(new ImageClickListener() {
+                                    @Override
+                                    public void onClick(int position) {
+                                        Toast.makeText(getContext(), "Clicked item: " + CustomerHomeActivity.listCarousel.get(position).getGambar(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        System.out.println("error load carousel " + error);
+                    }
+                }
+        ){
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        requestQueue.add(stringRequest);
     }
 
     private void showProductByKategori() {
