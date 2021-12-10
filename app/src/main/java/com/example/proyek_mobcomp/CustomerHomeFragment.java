@@ -76,12 +76,6 @@ public class CustomerHomeFragment extends Fragment {
         //return inflater.inflate(R.layout.fragment_customer_home, container, false);
         binding = FragmentCustomerHomeBinding.inflate(inflater, container, false);
 
-        binding.btnMoreCustHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showPopUp(v);
-            }
-        });
         loadcarousel();
         showProductByKategori();
 
@@ -95,10 +89,10 @@ public class CustomerHomeFragment extends Fragment {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        System.out.println(response);
+                        //System.out.println(response);
                         try {
                             JSONObject jsonObject = new JSONObject(response);
-                            System.out.println(jsonObject);
+                            //System.out.println(jsonObject);
                             JSONArray arraycarousel = jsonObject.getJSONArray("foto");
                             if (arraycarousel != null) {
                                 for (int i = 0; i < arraycarousel.length(); i++){
@@ -110,8 +104,9 @@ public class CustomerHomeFragment extends Fragment {
                                     int harga = arraycarousel.getJSONObject(i).getInt("harga");
                                     int stok = arraycarousel.getJSONObject(i).getInt("stok");
                                     String gambar = arraycarousel.getJSONObject(i).getString("gambar");
+                                    int is_deleted = arraycarousel.getJSONObject(i).getInt("is_deleted");
 
-                                    CustomerHomeActivity.listCarousel.add(new cProduct(id, fk_seller, fk_kategori, nama, deskripsi, harga, stok, gambar));
+                                    CustomerHomeActivity.listCarousel.add(new cProduct(id, fk_seller, fk_kategori, nama, deskripsi, harga, stok, gambar, is_deleted));
                                 }
 
                                 ImageListener imageListener = new ImageListener() {
@@ -119,7 +114,6 @@ public class CustomerHomeFragment extends Fragment {
                                     public void setImageForPosition(int position, ImageView imageView) {
                                         Picasso.get().load(getResources().getString(R.string.url) + "/produk/" +
                                                 CustomerHomeActivity.listCarousel.get(position).getGambar()).into(imageView);
-//                                        Picasso.get().load(getResources().getString(R.string.url) + "/produk/produk_3.jpg").into(imageView);
 //                                        System.out.println(getResources().getString(R.string.url) + "/produk/" +
 //                                                CustomerHomeActivity.listCarousel.get(position).getGambar());
                                     }
@@ -127,15 +121,6 @@ public class CustomerHomeFragment extends Fragment {
 
                                 binding.carouselView.setImageListener(imageListener);
                                 binding.carouselView.setPageCount(8);
-                                binding.carouselView.setImageClickListener(new ImageClickListener() {
-                                    @Override
-                                    public void onClick(int position) {
-                                        //getProductDetail(CustomerHomeActivity.listCarousel.get(position).getId());
-                                        Intent i = new Intent(getActivity(), CustomerDetailProduct.class);
-                                        i.putExtra("idproduct", CustomerHomeActivity.listCarousel.get(position).getId());
-                                        getActivity().startActivityForResult(i, 100);
-                                    }
-                                });
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -145,7 +130,7 @@ public class CustomerHomeFragment extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        System.out.println("error load carousel " + error.getMessage());
+                        System.out.println("error load carousel " + error);
                     }
                 }
         ){
@@ -199,9 +184,10 @@ public class CustomerHomeFragment extends Fragment {
                                 int harga = arrayProduct.getJSONObject(i).getInt("harga");
                                 int stok = arrayProduct.getJSONObject(i).getInt("stok");
                                 String gambar = arrayProduct.getJSONObject(i).getString("gambar");
+                                int is_deleted = arrayProduct.getJSONObject(i).getInt("is_deleted");
 
                                 CustomerHomeActivity.arrayListProduct.add(
-                                        new cProduct(id, fk_seller, fk_kategori, nama, deskripsi, harga, stok, gambar)
+                                        new cProduct(id, fk_seller, fk_kategori, nama, deskripsi, harga, stok, gambar, is_deleted)
                                 );
                             }
 
@@ -256,33 +242,7 @@ public class CustomerHomeFragment extends Fragment {
         binding.recyclerViewCustHome.setAdapter(recyclerAdapterCustomerHomeProduct);
     }
 
-    private void showPopUp(View v) {
-        //buat popup menu nya dulu
-        PopupMenu popupMenu = new PopupMenu(getContext(), v);
-        getActivity().getMenuInflater().inflate(R.menu.optionsmenucustomer, popupMenu.getMenu());
 
-        //event saat menu diklik
-        //alt + enter kedua -> implements onMenuItemClick
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if(item.getItemId() == R.id.wishlist){
-                    Intent i = new Intent(getContext(), CustomerWishlistActivity.class);
-                    startActivity(i);
-                }else if(item.getItemId() == R.id.logout){
-                    SharedPreferences sharedpreferences = getActivity().getSharedPreferences("data", getActivity().MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedpreferences.edit();
-                    editor.remove("login");
-                    editor.commit();
-                    getActivity().finish();
-                }
-                return true;
-            }
-        });
-
-        //munculkan popupmenu
-        popupMenu.show();
-    }
 
 //    protected void getProductDetail(int id){
 //        StringRequest stringRequest = new StringRequest(

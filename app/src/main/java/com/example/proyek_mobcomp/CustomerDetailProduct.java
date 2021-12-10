@@ -83,8 +83,9 @@ public class CustomerDetailProduct extends AppCompatActivity {
                                 int harga = productObject.getInt("harga");
                                 int stok =productObject.getInt("stok");
                                 String gambar = productObject.getString("gambar");
+                                int is_deleted = productObject.getInt("is_deleted");
 
-                                product = new cProduct(id, fk_seller, fk_kategori, nama, deskripsi, harga, stok, gambar);
+                                product = new cProduct(id, fk_seller, fk_kategori, nama, deskripsi, harga, stok, gambar, is_deleted);
 //                            }
                             System.out.println("test");
                             JSONArray arrayRecProduct = jsonObject.getJSONArray("datarecommendproduct");
@@ -97,8 +98,9 @@ public class CustomerDetailProduct extends AppCompatActivity {
                                 harga = arrayRecProduct.getJSONObject(i).getInt("harga");
                                 stok = arrayRecProduct.getJSONObject(i).getInt("stok");
                                 gambar = arrayRecProduct.getJSONObject(i).getString("gambar");
+                                is_deleted = arrayRecProduct.getJSONObject(i).getInt("is_deleted");
 
-                                arrRecommendationProduct.add(new cProduct(id, fk_seller, fk_kategori, nama, deskripsi, harga, stok, gambar));
+                                arrRecommendationProduct.add(new cProduct(id, fk_seller, fk_kategori, nama, deskripsi, harga, stok, gambar, is_deleted));
                             }
 
                             showProduct();

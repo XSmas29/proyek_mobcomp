@@ -4,8 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.PopupMenu;
+import android.widget.SearchView;
 
 import com.example.proyek_mobcomp.classFolder.cProduct;
 import com.example.proyek_mobcomp.classFolder.cWishlist;
@@ -26,6 +31,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
     public static String login;
 
     public void showFragment(int idx) {
+
         Bundle bundle = new Bundle();
         bundle.putString("login", login);
         if (idx == 0){
@@ -55,6 +61,35 @@ public class CustomerHomeActivity extends AppCompatActivity {
         }
     }
 
+
+    private void showPopUp(View v) {
+        //buat popup menu nya dulu
+        PopupMenu popupMenu = new PopupMenu(this, v);
+        this.getMenuInflater().inflate(R.menu.optionsmenucustomer, popupMenu.getMenu());
+
+        //event saat menu diklik
+        //alt + enter kedua -> implements onMenuItemClick
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if(item.getItemId() == R.id.wishlist){
+                    Intent i = new Intent(CustomerHomeActivity.this, CustomerWishlistActivity.class);
+                    startActivity(i);
+                }else if(item.getItemId() == R.id.logout){
+                    SharedPreferences sharedpreferences = getSharedPreferences("data", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                    editor.remove("login");
+                    editor.commit();
+                    finish();
+                }
+                return true;
+            }
+        });
+
+        //munculkan popupmenu
+        popupMenu.show();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +117,29 @@ public class CustomerHomeActivity extends AppCompatActivity {
                     showFragment(3);
                 }
                 return true;
+            }
+        });
+
+
+        binding.btnMoreCustHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopUp(v);
+            }
+        });
+
+        binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                Intent i = new Intent(CustomerHomeActivity.this, CustomerSearchActivity.class);
+                i.putExtra("keyword", s);
+                startActivity(i);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
             }
         });
     }
