@@ -6,13 +6,29 @@
     android:layout_height="match_parent"
     tools:context=".CustomerHomeFragment">
 
-    <SearchView
-        android:id="@+id/searchView"
+    <LinearLayout
+        android:id="@+id/ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+        <SearchView
+            android:id="@+id/searchView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.15"/>
+        <ImageButton
+            android:id="@+id/btnMoreCustHome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_menu_24"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+
 
     <com.synnapps.carouselview.CarouselView
         android:id="@+id/carouselView"
@@ -24,14 +40,18 @@
         android:strokeColor="#FF777777"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchView" />
+        app:layout_constraintTop_toBottomOf="@+id/ll" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_custHome"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/carouselView" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,10 +10,10 @@ import android.view.ViewGroup;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link DashboardSellerFragment#newInstance} factory method to
+ * Use the {@link CustomerCartFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DashboardSellerFragment extends Fragment {
+public class CustomerCartFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,7 +24,7 @@ public class DashboardSellerFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public DashboardSellerFragment() {
+    public CustomerCartFragment() {
         // Required empty public constructor
     }
 
@@ -34,11 +34,11 @@ public class DashboardSellerFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment DashboardSellerFragment.
+     * @return A new instance of fragment CustomerCartFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static DashboardSellerFragment newInstance(String param1, String param2) {
-        DashboardSellerFragment fragment = new DashboardSellerFragment();
+    public static CustomerCartFragment newInstance(String param1, String param2) {
+        CustomerCartFragment fragment = new CustomerCartFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -59,6 +59,6 @@ public class DashboardSellerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_dashboard_seller, container, false);
+        return inflater.inflate(R.layout.fragment_customer_cart, container, false);
     }
 }

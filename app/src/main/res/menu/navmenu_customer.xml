@@ -3,17 +3,18 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/customerhome"
         android:icon="@drawable/ic_home"
         android:title="Home"
         app:showAsAction="always" />
     <item
-        android:id="@+id/search"
+        android:id="@+id/customersearch"
         android:icon="@android:drawable/ic_menu_search"
         android:title="Search"
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/cart"
+        android:id="@+id/customercart"
         android:icon="@drawable/ic_cart"
         android:title="Cart"
         app:showAsAction="always" />

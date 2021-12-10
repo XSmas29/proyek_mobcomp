@@ -3,23 +3,21 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/sellerdashboard"
         android:icon="@drawable/ic_home"
-        android:title="Dashboard"
-        app:showAsAction="always" />
+        android:title="Dashboard"/>
     <item
-        android:id="@+id/Addbarang"
+        android:id="@+id/selleraddbarang"
         android:icon="@drawable/ic_add"
-        android:title="Add Barang"
-        app:showAsAction="always" />
+        android:title="Add Barang"/>
 
     <item
-        android:id="@+id/Saldo"
+        android:id="@+id/sellersaldo"
         android:icon="@drawable/ic_baseline_attach_money_24"
-        android:title="Saldo"
-        app:showAsAction="always" />
+        android:title="Saldo"/>
     <item
+        android:id="@+id/sellerhistory"
         android:icon="@android:drawable/ic_menu_recent_history"
-        android:title="History"
-        app:showAsAction="always" />
+        android:title="History"/>
 
 </menu>
