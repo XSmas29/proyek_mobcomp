@@ -34,14 +34,14 @@
             android:padding="4dp">
 
             <ImageView
-                android:id="@+id/imgProduk1"
+                android:id="@+id/imgSearchProduk"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/lbNamaProduk1"
+                android:id="@+id/lbNamaSearchProduk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -51,7 +51,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/lbHargaProduk1"
+                android:id="@+id/lbHargaSearchProduk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
