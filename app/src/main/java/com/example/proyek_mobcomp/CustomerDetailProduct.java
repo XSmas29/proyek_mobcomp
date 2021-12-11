@@ -4,7 +4,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -22,10 +21,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.proyek_mobcomp.classFolder.cProduct;
+import com.example.proyek_mobcomp.classFolder.cReview;
 import com.example.proyek_mobcomp.classFolder.cWishlist;
 import com.example.proyek_mobcomp.databinding.ActivityCustomerDetailProductBinding;
-import com.example.proyek_mobcomp.recyclerviewFolder.RecyclerAdapterCustomerDetailProduct;
 import com.example.proyek_mobcomp.recyclerviewFolder.RecyclerAdapterCustomerHomeProduct;
+import com.example.proyek_mobcomp.recyclerviewFolder.RecyclerAdapterReview;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -39,15 +39,16 @@ import java.util.Map;
 public class CustomerDetailProduct extends AppCompatActivity {
     protected ActivityCustomerDetailProductBinding binding;
     int idProduct = -1;
+    int jumlah = 1;
 
     cProduct product;
     ArrayList<cProduct> arrRecommendationProduct = new ArrayList<>();
+    ArrayList<cReview> arrReview = new ArrayList<>();
 
     int isWishlisted  = 0; // 0 = not wishlist, 1 = wishlisted
     int idWishlist = -1; // id wishlist, jika diwishlist
 
     String username = CustomerHomeActivity.login;
-
 
     LinearLayout llKategoriContainer, llProductContainer;
     TextView txtNamaKategori;
@@ -56,10 +57,7 @@ public class CustomerDetailProduct extends AppCompatActivity {
     TextView[] arrTxtNamaProduct = new TextView[5];
     TextView[] arrTxtHargaProduct = new TextView[5];
 
-    //RecyclerAdapterCustomerDetailProduct recyclerAdapterCustomerDetailProduct;
-
-    //RecyclerAdapterCustomerHomeProduct recyclerAdapterCustomerHomeProduct;
-
+    RecyclerAdapterReview recyclerAdapterReview;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +65,53 @@ public class CustomerDetailProduct extends AppCompatActivity {
 
         binding = ActivityCustomerDetailProductBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        idProduct = getIntent().getIntExtra("idproduct", -1);
+        username = getIntent().getStringExtra("login");
+
+        //Toast.makeText(this, username, Toast.LENGTH_SHORT).show();
+        if (idProduct != -1) {
+            getProductDetail();
+        }
+
+        jumlah = 1;
+        binding.imageButtonMinus.setEnabled(false);
+
+        binding.editTextJumlah.setText(jumlah+"");
+
+        binding.imageButtonMinus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                jumlah--;
+                binding.imageButtonPlus.setEnabled(true);
+                if (jumlah <= 1){
+                    jumlah = 1;
+                    binding.imageButtonMinus.setEnabled(false);
+                }
+                binding.editTextJumlah.setText(jumlah+"");
+            }
+        });
+
+        binding.imageButtonPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                jumlah++;
+                binding.imageButtonMinus.setEnabled(true);
+                if (jumlah >= product.getStok()){
+                    jumlah = product.getStok();
+                    //Toast.makeText(getBaseContext(), "Jumlah lebih dari stok", Toast.LENGTH_SHORT).show();
+                    binding.imageButtonPlus.setEnabled(false);
+                }
+                binding.editTextJumlah.setText(jumlah+"");
+            }
+        });
+
+        binding.btnAddToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
 
         llProductContainer = findViewById(R.id.llProductContainer);
@@ -95,13 +140,7 @@ public class CustomerDetailProduct extends AppCompatActivity {
         arrTxtHargaProduct[3] = findViewById(R.id.textView_hargaProduct3);
         arrTxtHargaProduct[4] = findViewById(R.id.textView_hargaProduct4);
 
-        idProduct = getIntent().getIntExtra("idproduct", -1);
-        username = getIntent().getStringExtra("login");
 
-        //Toast.makeText(this, username, Toast.LENGTH_SHORT).show();
-        if (idProduct != -1) {
-            getProductDetail();
-        }
 
 
         // btn wishilist
@@ -208,7 +247,30 @@ public class CustomerDetailProduct extends AppCompatActivity {
 
                                 product = new cProduct(id, fk_seller, fk_kategori, nama, deskripsi, harga, stok, gambar, is_deleted);
 //                            }
-                            System.out.println("test");
+
+                            JSONArray sellerArray = jsonObject.getJSONArray("dataseller");
+                            for (int i = 0; i < sellerArray.length();i++) {
+                                nama = sellerArray.getJSONObject(i).getString("nama");
+                                gambar = sellerArray.getJSONObject(i).getString("gambar");
+                                binding.textViewNamaToko.setText(nama);
+                                Picasso.get().load(getResources().getString(R.string.url) + "/profile/" +
+                                        gambar).into(binding.imageViewProfileToko);
+                            }
+
+                            JSONArray reviewArray = jsonObject.getJSONArray("datareview");
+                            for (int i = 0; i < reviewArray.length();i++) {
+                                id = reviewArray.getJSONObject(i).getInt("id");
+                                int fk_htrans = reviewArray.getJSONObject(i).getInt("fk_htrans");
+                                int fk_dtrans = reviewArray.getJSONObject(i).getInt("fk_dtrans");
+                                String fk_user = reviewArray.getJSONObject(i).getString("fk_user");
+                                int star = reviewArray.getJSONObject(i).getInt("star");
+                                String isi = reviewArray.getJSONObject(i).getString("isi");
+                                nama = reviewArray.getJSONObject(i).getString("nama");
+                                String tanggal = reviewArray.getJSONObject(i).getString("tanggal");
+
+                                arrReview.add(new cReview(id, fk_htrans, fk_dtrans,fk_user,star, isi, tanggal, nama));
+                            }
+
                             JSONArray arrayRecProduct = jsonObject.getJSONArray("datarecommendproduct");
                             for (int i = 0; i < arrayRecProduct.length(); i ++){
                                 id = arrayRecProduct.getJSONObject(i).getInt("id");
@@ -225,7 +287,7 @@ public class CustomerDetailProduct extends AppCompatActivity {
                             }
 
                             showProduct();
-//                            setRv();
+                            setReviewRv();
                         } catch (JSONException e) {
                             e.printStackTrace();
                             System.out.println(e.getMessage());
@@ -253,28 +315,14 @@ public class CustomerDetailProduct extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-    private void setRv() {
-//        binding.recyclerViewDetailpageRecomendation.setLayoutManager(new LinearLayoutManager(this));
-//        binding.recyclerViewDetailpageRecomendation.setHasFixedSize(true);
-//
-//        recyclerAdapterCustomerDetailProduct = new RecyclerAdapterCustomerDetailProduct(
-//                arrRecommendationProduct
-//        );
-//        binding.recyclerViewDetailpageRecomendation.setAdapter(recyclerAdapterCustomerDetailProduct);
+    private void setReviewRv() {
+        binding.recyclerViewCustReview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        binding.recyclerViewCustReview.setHasFixedSize(true);
 
-
-
-//        binding.recyclerViewDetailpageRecomendation.setLayoutManager(new LinearLayoutManager(getBaseContext()));
-//        binding.recyclerViewDetailpageRecomendation.setHasFixedSize(true);
-//
-//        ArrayList<cKategori> arrKategoriProduct = new ArrayList<>();
-//
-//
-//        recyclerAdapterCustomerHomeProduct = new RecyclerAdapterCustomerHomeProduct(
-//                CustomerHomeActivity.arrayListKategori,
-//                CustomerHomeActivity.arrayListProduct
-//        );
-//        binding.recyclerViewDetailpageRecomendation.setAdapter(recyclerAdapterCustomerHomeProduct);
+        recyclerAdapterReview = new RecyclerAdapterReview(
+                arrReview
+        );
+        binding.recyclerViewCustReview.setAdapter(recyclerAdapterReview);
     }
 
     protected void showProduct() {
