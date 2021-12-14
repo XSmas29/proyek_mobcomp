@@ -2,12 +2,18 @@ package com.example.proyek_mobcomp;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -22,6 +28,7 @@ import com.example.proyek_mobcomp.databinding.ActivityCustomerHomeBinding;
 import com.example.proyek_mobcomp.databinding.ActivityCustomerSearchBinding;
 import com.example.proyek_mobcomp.recyclerviewFolder.RecyclerAdapterCustomerHomeProduct;
 import com.example.proyek_mobcomp.recyclerviewFolder.RecyclerAdapterCustomerSearchProduct;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.squareup.picasso.Picasso;
 import com.synnapps.carouselview.ImageClickListener;
 import com.synnapps.carouselview.ImageListener;
@@ -38,6 +45,7 @@ public class CustomerSearchActivity extends AppCompatActivity {
 
     ActivityCustomerSearchBinding binding;
     ArrayList<cProduct> listSearch = new ArrayList<>();
+    ArrayList<cKategori> listKategori = new ArrayList<>();
     ArrayList<String[]> listowner = new ArrayList<>();
     RecyclerAdapterCustomerSearchProduct recyclerAdapterCustomerSearchProduct;
 
@@ -51,11 +59,12 @@ public class CustomerSearchActivity extends AppCompatActivity {
 
         if (getIntent().hasExtra("keyword")){
             binding.txtKeyword.setText("Search Result for '" + getIntent().getStringExtra("keyword") + "'");
-            loadSearch();
+            loadSearch("All", "-1", "-1");
         }
     }
 
-    private void loadSearch() {
+    private void loadSearch(String kategori, String min, String max) {
+        listSearch = new ArrayList<>();
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
                 getResources().getString(R.string.url) + "/customer/search",
@@ -67,6 +76,7 @@ public class CustomerSearchActivity extends AppCompatActivity {
                             JSONObject jsonObject = new JSONObject(response);
                             System.out.println(jsonObject);
                             JSONArray arraysearch = jsonObject.getJSONArray("databarang");
+                            JSONArray arraykategori = jsonObject.getJSONArray("datakategori");
 
                             for (int i = 0; i < arraysearch.length(); i++){
                                 int id = arraysearch.getJSONObject(i).getInt("id");
@@ -90,6 +100,13 @@ public class CustomerSearchActivity extends AppCompatActivity {
 
                                 listowner.add(new String[] {namatoko, gambartoko});
                             }
+                            for (int i = 0; i < arraykategori.length(); i++) {
+                                int id = arraykategori.getJSONObject(i).getInt("id");
+                                String nama = arraykategori.getJSONObject(i).getString("nama");
+                                String tipe = arraykategori.getJSONObject(i).getString("tipe");
+
+                                listKategori.add(new cKategori(id, nama, tipe));
+                            }
                             setRvSearchGrid();
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -108,6 +125,10 @@ public class CustomerSearchActivity extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
                 params.put("keyword", String.valueOf(getIntent().getStringExtra("keyword")));
+                params.put("kategori", kategori);
+                params.put("min", min);
+                params.put("max", max);
+
                 return params;
             }
         };
@@ -123,5 +144,34 @@ public class CustomerSearchActivity extends AppCompatActivity {
         recyclerAdapterCustomerSearchProduct = new RecyclerAdapterCustomerSearchProduct(listSearch, listowner);
         binding.rvSearch.setAdapter(recyclerAdapterCustomerSearchProduct);
 
+    }
+
+    public void showFilter(View v){
+        BottomSheetDialog filterDialog = new BottomSheetDialog(this, R.style.DialogTheme);
+        View BottomSheetView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.dialog_filter, (ConstraintLayout)findViewById(R.id.dialogFilterContainer));
+
+        Spinner spKategori = BottomSheetView.findViewById(R.id.spFilterKategori);
+        EditText edMin = BottomSheetView.findViewById(R.id.edFilterMin);
+        EditText edMax= BottomSheetView.findViewById(R.id.edFilterMax);
+
+        BottomSheetView.findViewById(R.id.btnApplyFilter).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadSearch(spKategori.getSelectedItem().toString(), edMin.getText().toString(),edMax.getText().toString());
+                filterDialog.dismiss();
+            }
+        });
+        ArrayList<String> listNamaKategori = new ArrayList<>();
+        listNamaKategori.add("All");
+        for (int i = 0; i < listKategori.size(); i++) {
+            listNamaKategori.add(listKategori.get(i).getNama());
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, listNamaKategori);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spKategori.setAdapter(adapter);
+        filterDialog.setContentView(BottomSheetView);
+        filterDialog.show();
     }
 }
