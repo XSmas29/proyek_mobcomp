@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.proyek_mobcomp.classFolder.cCart;
 import com.example.proyek_mobcomp.classFolder.cProduct;
 import com.example.proyek_mobcomp.classFolder.cReview;
 import com.example.proyek_mobcomp.classFolder.cWishlist;
@@ -34,12 +36,15 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CustomerDetailProduct extends AppCompatActivity {
     protected ActivityCustomerDetailProductBinding binding;
     int idProduct = -1;
     int jumlah = 1;
+
+    AppDatabase db;
 
     cProduct product;
     ArrayList<cProduct> arrRecommendationProduct = new ArrayList<>();
@@ -66,8 +71,12 @@ public class CustomerDetailProduct extends AppCompatActivity {
         binding = ActivityCustomerDetailProductBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        db = AppDatabase.getInstance(getBaseContext());
+
         idProduct = getIntent().getIntExtra("idproduct", -1);
         username = getIntent().getStringExtra("login");
+
+        getAllProduct();
 
         //Toast.makeText(this, username, Toast.LENGTH_SHORT).show();
         if (idProduct != -1) {
@@ -75,6 +84,7 @@ public class CustomerDetailProduct extends AppCompatActivity {
         }
 
         jumlah = 1;
+
         binding.imageButtonMinus.setEnabled(false);
 
         binding.editTextJumlah.setText(jumlah+"");
@@ -109,7 +119,99 @@ public class CustomerDetailProduct extends AppCompatActivity {
         binding.btnAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (jumlah > 0 && jumlah <= product.getStok()){
+                    //update stok product
+//                    StringRequest stringRequest = new StringRequest(
+//                            Request.Method.POST,
+//                            getResources().getString(R.string.url) + "/customer/updatestock",
+//                            new Response.Listener<String>() {
+//                                @Override
+//                                public void onResponse(String response) {
+//                                    System.out.println(response);
+//
+//                                    try {
+//                                        JSONObject jsonObject = new JSONObject(response);
+//
+//                                        int code = jsonObject.getInt("code");
+//                                        String message = jsonObject.getString("message");
+//
+//                                        // get data product yg akan ditampilkan
+//                                        JSONArray arrayProduct = jsonObject.getJSONArray("dataproduct");
+//                                        CustomerHomeActivity.arrayListProduct.clear();
+//                                        //System.out.println("panjang array " + arrayProduct);
+//                                        for (int i = 0; i < arrayProduct.length(); i++){
+//                                            int id = arrayProduct.getJSONObject(i).getInt("id");
+//                                            String fk_seller = arrayProduct.getJSONObject(i).getString("fk_seller");
+//                                            int fk_kategori = arrayProduct.getJSONObject(i).getInt("fk_kategori");
+//                                            String nama = arrayProduct.getJSONObject(i).getString("nama");
+//                                            String deskripsi = arrayProduct.getJSONObject(i).getString("deskripsi");
+//                                            int harga = arrayProduct.getJSONObject(i).getInt("harga");
+//                                            int stok = arrayProduct.getJSONObject(i).getInt("stok");
+//                                            String gambar = arrayProduct.getJSONObject(i).getString("gambar");
+//                                            int is_deleted = arrayProduct.getJSONObject(i).getInt("is_deleted");
+//
+//                                            CustomerHomeActivity.arrayListProduct.add(
+//                                                    new cProduct(id, fk_seller, fk_kategori, nama, deskripsi, harga, stok, gambar, is_deleted)
+//                                            );
+//                                        }
+//                                        getProductDetail();
+//                                    } catch (JSONException e) {
+//                                        e.printStackTrace();
+//                                    }
+//                                }
+//                            },
+//                            new Response.ErrorListener() {
+//                                @Override
+//                                public void onErrorResponse(VolleyError error) {
+//                                    System.out.println("error update stock product in cart : " + error);
+//                                }
+//                            }
+//
+//                    ){
+//                        @Nullable
+//                        @Override
+//                        protected Map<String, String> getParams() throws AuthFailureError {
+//                            Map<String, String> params = new HashMap<>();
+//                            params.put("function","updatestock");
+//                            params.put("idproduct", idProduct+"");
+//                            params.put("jumlah", String.valueOf(jumlah));
+//                            return params;
+//                        }
+//                    };
+//
+//                    RequestQueue requestQueue = Volley.newRequestQueue(getBaseContext());
+//                    requestQueue.add(stringRequest);
 
+                    new AsyncTask<Void, Void, String>(){
+                        @Override
+                        protected String doInBackground(Void... voids) {
+                            //cek ada barang yg sama gk di cart
+                            List<cCart> checkProductResult = db.cartDao().getCartByIdProductAndUsername(idProduct, username);
+                            if (checkProductResult.size() > 0){
+                                //System.out.println("ada");
+                                cCart productCart = checkProductResult.get(0);
+                                productCart.setJumlah(productCart.getJumlah() + jumlah);
+                                db.cartDao().updateCart(productCart);
+                            }else{
+                                //System.out.println("gk ada");
+                                cCart cart = new cCart(idProduct, username, jumlah);
+                                db.cartDao().insertCart(cart);
+                            }
+
+                            return "sukses";
+                        }
+
+                        @Override
+                        protected void onPostExecute(String status) {
+                            System.out.println(status);
+                            if (status.equalsIgnoreCase("sukses")) {
+                                Toast.makeText(getBaseContext(), "Berhasil menambahkan ke cart!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }.execute();
+                }else{
+                    //Toast.makeText(getBaseContext(), "Pastikan jumlah yang dibeli tepat", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -201,12 +303,12 @@ public class CustomerDetailProduct extends AppCompatActivity {
                     protected Map<String, String> getParams() throws AuthFailureError {
                         Map<String, String> params = new HashMap<>();
                         if (isWishlisted == 0){
-                            System.out.println("test1");
+                            //System.out.println("test1");
                             params.put("function","addwishlist");
                             params.put("idproduct", String.valueOf(idProduct));
                             params.put("username", username);
                         }else {
-                            System.out.println("test2");
+                            //System.out.println("test2");
                             params.put("function","deletewishlist");
                             params.put("idwishlist", idWishlist+"");
                         }
@@ -219,6 +321,62 @@ public class CustomerDetailProduct extends AppCompatActivity {
                 requestQueue.add(stringRequest);
             }
         });
+    }
+
+    private void getAllProduct() {
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.POST,
+                getResources().getString(R.string.url) + "/customer/getallproduct",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        System.out.println(response);
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+
+                            // get data product yg akan ditampilkan
+                            JSONArray arrayProduct = jsonObject.getJSONArray("dataproduct");
+                            CustomerHomeActivity.arrayListProduct.clear();
+                            //System.out.println("panjang array " + arrayProduct);
+                            for (int i = 0; i < arrayProduct.length(); i++){
+                                int id = arrayProduct.getJSONObject(i).getInt("id");
+                                String fk_seller = arrayProduct.getJSONObject(i).getString("fk_seller");
+                                int fk_kategori = arrayProduct.getJSONObject(i).getInt("fk_kategori");
+                                String nama = arrayProduct.getJSONObject(i).getString("nama");
+                                String deskripsi = arrayProduct.getJSONObject(i).getString("deskripsi");
+                                int harga = arrayProduct.getJSONObject(i).getInt("harga");
+                                int stok = arrayProduct.getJSONObject(i).getInt("stok");
+                                String gambar = arrayProduct.getJSONObject(i).getString("gambar");
+                                int is_deleted = arrayProduct.getJSONObject(i).getInt("is_deleted");
+
+                                CustomerHomeActivity.arrayListProduct.add(
+                                        new cProduct(id, fk_seller, fk_kategori, nama, deskripsi, harga, stok, gambar, is_deleted)
+                                );
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        System.out.println("error update stock product in cart : " + error);
+                    }
+                }
+
+        ){
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getBaseContext());
+        requestQueue.add(stringRequest);
     }
 
     protected void getProductDetail(){ // mendapatkan data detail product tersebut juga recommendnya
@@ -258,6 +416,7 @@ public class CustomerDetailProduct extends AppCompatActivity {
                             }
 
                             JSONArray reviewArray = jsonObject.getJSONArray("datareview");
+                            arrReview.clear();
                             for (int i = 0; i < reviewArray.length();i++) {
                                 id = reviewArray.getJSONObject(i).getInt("id");
                                 int fk_htrans = reviewArray.getJSONObject(i).getInt("fk_htrans");
@@ -272,6 +431,7 @@ public class CustomerDetailProduct extends AppCompatActivity {
                             }
 
                             JSONArray arrayRecProduct = jsonObject.getJSONArray("datarecommendproduct");
+                            arrRecommendationProduct.clear();
                             for (int i = 0; i < arrayRecProduct.length(); i ++){
                                 id = arrayRecProduct.getJSONObject(i).getInt("id");
                                 fk_seller = arrayRecProduct.getJSONObject(i).getString("fk_seller");
@@ -331,7 +491,15 @@ public class CustomerDetailProduct extends AppCompatActivity {
 
         binding.textViewProductName.setText(product.getNama());
         binding.textViewProductPrice.setText("Rp " + product.getHarga());
+        binding.textViewProductStock.setText("Stok : " + product.getStok());
         binding.textViewProductDescription.setText("Detail produk : \n"+product.getDeskripsi());
+
+        if (product.getStok() <= 0){
+            binding.imageButtonMinus.setEnabled(false);
+            binding.imageButtonPlus.setEnabled(false);
+            jumlah = 0;
+            binding.editTextJumlah.setText(jumlah);
+        }
 
         showIsWishlist();
 

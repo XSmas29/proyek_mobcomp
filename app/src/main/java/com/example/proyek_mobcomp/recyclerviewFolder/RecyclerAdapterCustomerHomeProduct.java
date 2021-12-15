@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.proyek_mobcomp.CustomerDetailProduct;
 import com.example.proyek_mobcomp.CustomerHomeActivity;
 import com.example.proyek_mobcomp.R;
-import com.example.proyek_mobcomp.cKategori;
+import com.example.proyek_mobcomp.classFolder.cKategori;
 import com.example.proyek_mobcomp.classFolder.cProduct;
 import com.squareup.picasso.Picasso;
 
@@ -103,7 +103,7 @@ public class RecyclerAdapterCustomerHomeProduct extends RecyclerView.Adapter<Rec
 
 
             for (int j = 0; j < arrProduct.size();j++){
-                if (ctrBarang < 5){
+                if (ctrBarang < 5 && arrProduct.get(j).getStok() > 0){
                     if (arrProduct.get(j).getFk_kategori() == kategori.getId()){
                         Picasso.get().load(itemView.getResources().getString(R.string.url) + "/produk/" +
                                 arrProduct.get(j).getGambar()).into(arrImageView[ctrBarang]);

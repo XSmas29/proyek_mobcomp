@@ -5,14 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyek_mobcomp.R;
-import com.example.proyek_mobcomp.cKategori;
 import com.example.proyek_mobcomp.classFolder.cProduct;
 import com.squareup.picasso.Picasso;
 

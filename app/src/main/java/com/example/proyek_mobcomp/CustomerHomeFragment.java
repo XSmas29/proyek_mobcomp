@@ -1,7 +1,5 @@
 package com.example.proyek_mobcomp;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -9,11 +7,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -22,12 +18,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.proyek_mobcomp.classFolder.cKategori;
 import com.example.proyek_mobcomp.classFolder.cProduct;
 import com.example.proyek_mobcomp.classFolder.cWishlist;
 import com.example.proyek_mobcomp.databinding.FragmentCustomerHomeBinding;
 import com.example.proyek_mobcomp.recyclerviewFolder.RecyclerAdapterCustomerHomeProduct;
 import com.squareup.picasso.Picasso;
-import com.synnapps.carouselview.ImageClickListener;
 import com.synnapps.carouselview.ImageListener;
 
 import org.json.JSONArray;
@@ -82,6 +78,7 @@ public class CustomerHomeFragment extends Fragment {
     }
 
     private void loadcarousel() {
+        binding.progressBar.setVisibility(View.VISIBLE);
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
                 getResources().getString(R.string.url) + "/customer/loadcarousel",
@@ -145,7 +142,7 @@ public class CustomerHomeFragment extends Fragment {
         requestQueue.add(stringRequest);
     }
 
-    private void showProductByKategori() {
+    public void showProductByKategori() {
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
                 getResources().getString(R.string.url) + "/customer/showproductbykategori",
@@ -204,7 +201,7 @@ public class CustomerHomeFragment extends Fragment {
                             }
 
                             setRvProduct();
-
+                            binding.progressBar.setVisibility(View.INVISIBLE);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

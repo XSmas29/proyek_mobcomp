@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.PopupMenu;
 import android.widget.SearchView;
 
+import com.example.proyek_mobcomp.classFolder.cKategori;
 import com.example.proyek_mobcomp.classFolder.cProduct;
 import com.example.proyek_mobcomp.classFolder.cWishlist;
 import com.example.proyek_mobcomp.databinding.ActivityCustomerHomeBinding;
@@ -72,9 +73,9 @@ public class CustomerHomeActivity extends AppCompatActivity {
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                if(item.getItemId() == R.id.wishlist){
-                    Intent i = new Intent(CustomerHomeActivity.this, CustomerWishlistActivity.class);
-                    startActivity(i);
+                if(item.getItemId() == R.id.profile){
+//                    Intent i = new Intent(CustomerHomeActivity.this, CustomerWishlistActivity.class);
+//                    startActivity(i);
                 }else if(item.getItemId() == R.id.logout){
                     SharedPreferences sharedpreferences = getSharedPreferences("data", MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedpreferences.edit();
