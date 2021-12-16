@@ -170,6 +170,7 @@ public class CustomerCartFragment extends Fragment {
     }
 
     public void setRv() {
+        //System.out.println("masuk set rv");
         total = 0;
         binding.recyclerViewCustCart.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerViewCustCart.setHasFixedSize(true);
@@ -178,15 +179,20 @@ public class CustomerCartFragment extends Fragment {
         ArrayList<cCart> arrCart = new ArrayList<>();
         arrCart.addAll(cart);
 
+        if (arrCart.size() == 0){
+            setTotal();
+        }
+
         recyclerAdapterCustomerCart = new RecyclerAdapterCustomerCart(
                 arrCart,
                 this
         );
         binding.recyclerViewCustCart.setAdapter(recyclerAdapterCustomerCart);
-        setTotal();
+        //setTotal();
     }
 
     public void setTotal(){
+        System.out.println("masuk set total");
         binding.btnCheckout.setText("Checkout Rp " + total);
         binding.btnCheckout.setEnabled(true);
         if (total == 0){

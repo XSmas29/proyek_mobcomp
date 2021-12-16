@@ -42,11 +42,11 @@ public class CustomerHomeActivity extends AppCompatActivity {
             fragmentTransaction.replace(R.id.frContainer, customerHomeFragment);
             fragmentTransaction.commit();
         }else if (idx == 1){
-//            CustomerSearchFragment customerSearchFragment = new CustomerSearchFragment();
-//            customerSearchFragment.setArguments(bundle);
-//            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//            fragmentTransaction.replace(R.id.frContainer, customerSearchFragment);
-//            fragmentTransaction.commit();
+            CustomerHeaderPurchaseHistoryFragment customerHeaderPurchaseHistoryFragment = new CustomerHeaderPurchaseHistoryFragment();
+            customerHeaderPurchaseHistoryFragment.setArguments(bundle);
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frContainer, customerHeaderPurchaseHistoryFragment);
+            fragmentTransaction.commit();
         }else if (idx == 2){
 //            CustomerCartFragment customerCartFragment = new CustomerCartFragment();
 //            customerCartFragment.setArguments(bundle);
