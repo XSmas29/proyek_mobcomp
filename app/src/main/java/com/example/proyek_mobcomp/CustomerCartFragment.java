@@ -4,10 +4,12 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -20,11 +22,15 @@ import com.example.proyek_mobcomp.classFolder.cCart;
 import com.example.proyek_mobcomp.classFolder.cProduct;
 import com.example.proyek_mobcomp.databinding.FragmentCustomerCartBinding;
 import com.example.proyek_mobcomp.databinding.FragmentCustomerHomeBinding;
+import com.example.proyek_mobcomp.recyclerviewFolder.RecyclerAdapterCustomerCart;
+import com.example.proyek_mobcomp.recyclerviewFolder.RecyclerAdapterCustomerHomeProduct;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,7 +83,11 @@ public class CustomerCartFragment extends Fragment {
     }
 
 
+    public static int total = 0;
+
     protected FragmentCustomerCartBinding binding;
+
+    RecyclerAdapterCustomerCart recyclerAdapterCustomerCart;
 
     AppDatabase db;
     @Override
@@ -87,14 +97,107 @@ public class CustomerCartFragment extends Fragment {
 //        return inflater.inflate(R.layout.fragment_customer_cart, container, false);
 
         binding = FragmentCustomerCartBinding.inflate(inflater, container, false);
+        total = 0;
         getAllProduct();
 
         db = AppDatabase.getInstance(getContext());
 
+        setRv();
+
+        checkout();
+
         return binding.getRoot();
     }
 
+    protected void checkout() {
+        binding.btnCheckout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.progressBar.setVisibility(View.VISIBLE);
+                Gson gson = new Gson();
+                String isicart = gson.toJson(db.cartDao().getCartByUsername(CustomerHomeActivity.login));
+                System.out.println(isicart);
+                StringRequest stringRequest = new StringRequest(
+                        Request.Method.POST,
+                        getResources().getString(R.string.url) + "/customer/checkout",
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                System.out.println(response);
+
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response);
+
+                                    int code = jsonObject.getInt("code");
+                                    String message = jsonObject.getString("message");
+
+                                    if (code == 1){
+                                        db.cartDao().deleteCartByUsername(CustomerHomeActivity.login);
+                                        setRv();
+                                    }
+
+                                    Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+                                    binding.progressBar.setVisibility(View.INVISIBLE);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                System.out.println("error customer checkout " + error);
+                            }
+                        }
+                ){
+                    @Nullable
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String, String> params = new HashMap<>();
+                        params.put("function", "checkout");
+                        params.put("username", CustomerHomeActivity.login);
+                        params.put("cart", isicart);
+                        params.put("grandtotal", total+"");
+
+                        return params;
+                    }
+                };
+
+                RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+                requestQueue.add(stringRequest);
+            }
+        });
+    }
+
+    public void setRv() {
+        total = 0;
+        binding.recyclerViewCustCart.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.recyclerViewCustCart.setHasFixedSize(true);
+
+        List<cCart> cart = db.cartDao().getCartByUsername(CustomerHomeActivity.login);
+        ArrayList<cCart> arrCart = new ArrayList<>();
+        arrCart.addAll(cart);
+
+        recyclerAdapterCustomerCart = new RecyclerAdapterCustomerCart(
+                arrCart,
+                this
+        );
+        binding.recyclerViewCustCart.setAdapter(recyclerAdapterCustomerCart);
+        setTotal();
+    }
+
+    public void setTotal(){
+        binding.btnCheckout.setText("Checkout Rp " + total);
+        binding.btnCheckout.setEnabled(true);
+        if (total == 0){
+            binding.btnCheckout.setText("Checkout");
+            binding.btnCheckout.setEnabled(false);
+        }
+        binding.progressBar.setVisibility(View.INVISIBLE);
+    }
+
     private void getAllProduct() {
+        binding.progressBar.setVisibility(View.VISIBLE);
         //binding.progressBar.setVisibility(View.VISIBLE);
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
@@ -126,6 +229,7 @@ public class CustomerCartFragment extends Fragment {
                                         new cProduct(id, fk_seller, fk_kategori, nama, deskripsi, harga, stok, gambar, is_deleted)
                                 );
                             }
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

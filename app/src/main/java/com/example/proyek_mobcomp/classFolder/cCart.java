@@ -15,11 +15,15 @@ public class cCart {
     protected int idProduct;
     protected String username;
     protected int jumlah;
+    protected int harga;
+    protected String catatan;
 
-    public cCart(int idProduct, String username, int jumlah) {
+    public cCart(int idProduct, String username, int jumlah, int harga) {
         this.idProduct = idProduct;
         this.username = username;
         this.jumlah = jumlah;
+        this.harga = harga;
+        this.catatan = "";
     }
 
     public String getUsername() {
@@ -54,4 +58,19 @@ public class cCart {
         this.jumlah = jumlah;
     }
 
+    public int getHarga() {
+        return harga;
+    }
+
+    public void setHarga(int harga) {
+        this.harga = harga;
+    }
+
+    public String getCatatan() {
+        return catatan;
+    }
+
+    public void setCatatan(String catatan) {
+        this.catatan = catatan;
+    }
 }

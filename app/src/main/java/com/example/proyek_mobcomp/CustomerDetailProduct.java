@@ -120,95 +120,84 @@ public class CustomerDetailProduct extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (jumlah > 0 && jumlah <= product.getStok()){
-                    //update stok product
-//                    StringRequest stringRequest = new StringRequest(
-//                            Request.Method.POST,
-//                            getResources().getString(R.string.url) + "/customer/updatestock",
-//                            new Response.Listener<String>() {
-//                                @Override
-//                                public void onResponse(String response) {
-//                                    System.out.println(response);
-//
-//                                    try {
-//                                        JSONObject jsonObject = new JSONObject(response);
-//
-//                                        int code = jsonObject.getInt("code");
-//                                        String message = jsonObject.getString("message");
-//
-//                                        // get data product yg akan ditampilkan
-//                                        JSONArray arrayProduct = jsonObject.getJSONArray("dataproduct");
-//                                        CustomerHomeActivity.arrayListProduct.clear();
-//                                        //System.out.println("panjang array " + arrayProduct);
-//                                        for (int i = 0; i < arrayProduct.length(); i++){
-//                                            int id = arrayProduct.getJSONObject(i).getInt("id");
-//                                            String fk_seller = arrayProduct.getJSONObject(i).getString("fk_seller");
-//                                            int fk_kategori = arrayProduct.getJSONObject(i).getInt("fk_kategori");
-//                                            String nama = arrayProduct.getJSONObject(i).getString("nama");
-//                                            String deskripsi = arrayProduct.getJSONObject(i).getString("deskripsi");
-//                                            int harga = arrayProduct.getJSONObject(i).getInt("harga");
-//                                            int stok = arrayProduct.getJSONObject(i).getInt("stok");
-//                                            String gambar = arrayProduct.getJSONObject(i).getString("gambar");
-//                                            int is_deleted = arrayProduct.getJSONObject(i).getInt("is_deleted");
-//
-//                                            CustomerHomeActivity.arrayListProduct.add(
-//                                                    new cProduct(id, fk_seller, fk_kategori, nama, deskripsi, harga, stok, gambar, is_deleted)
-//                                            );
-//                                        }
-//                                        getProductDetail();
-//                                    } catch (JSONException e) {
-//                                        e.printStackTrace();
-//                                    }
-//                                }
-//                            },
-//                            new Response.ErrorListener() {
-//                                @Override
-//                                public void onErrorResponse(VolleyError error) {
-//                                    System.out.println("error update stock product in cart : " + error);
-//                                }
-//                            }
-//
-//                    ){
-//                        @Nullable
-//                        @Override
-//                        protected Map<String, String> getParams() throws AuthFailureError {
-//                            Map<String, String> params = new HashMap<>();
-//                            params.put("function","updatestock");
-//                            params.put("idproduct", idProduct+"");
-//                            params.put("jumlah", String.valueOf(jumlah));
-//                            return params;
-//                        }
-//                    };
-//
-//                    RequestQueue requestQueue = Volley.newRequestQueue(getBaseContext());
-//                    requestQueue.add(stringRequest);
+                    //int code = 1;
+                    //cek stok product
+                    StringRequest stringRequest = new StringRequest(
+                            Request.Method.POST,
+                            getResources().getString(R.string.url) + "/customer/checkstockproduct",
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    System.out.println(response);
 
-                    new AsyncTask<Void, Void, String>(){
-                        @Override
-                        protected String doInBackground(Void... voids) {
-                            //cek ada barang yg sama gk di cart
-                            List<cCart> checkProductResult = db.cartDao().getCartByIdProductAndUsername(idProduct, username);
-                            if (checkProductResult.size() > 0){
-                                //System.out.println("ada");
-                                cCart productCart = checkProductResult.get(0);
-                                productCart.setJumlah(productCart.getJumlah() + jumlah);
-                                db.cartDao().updateCart(productCart);
-                            }else{
-                                //System.out.println("gk ada");
-                                cCart cart = new cCart(idProduct, username, jumlah);
-                                db.cartDao().insertCart(cart);
+                                    try {
+                                        JSONObject jsonObject = new JSONObject(response);
+
+                                        int code = jsonObject.getInt("code");
+                                        String message = jsonObject.getString("message");
+
+                                        if (code == 0){
+                                            getProductDetail();
+                                            getAllProduct();
+                                            Toast.makeText(getBaseContext(), message+"", Toast.LENGTH_SHORT).show();
+                                        }else{
+                                            new AsyncTask<Void, Void, String>(){
+                                                @Override
+                                                protected String doInBackground(Void... voids) {
+                                                    //cek ada barang yg sama gk di cart
+                                                    List<cCart> checkProductResult = db.cartDao().getCartByIdProductAndUsername(idProduct, username);
+                                                    if (checkProductResult.size() > 0){
+                                                        //System.out.println("ada");
+                                                        cCart productCart = checkProductResult.get(0);
+                                                        productCart.setJumlah(productCart.getJumlah() + jumlah);
+                                                        productCart.setHarga(product.getHarga());
+                                                        db.cartDao().updateCart(productCart);
+                                                    }else{
+                                                        //System.out.println("gk ada");
+                                                        cCart cart = new cCart(idProduct, username, jumlah, product.getHarga());
+                                                        db.cartDao().insertCart(cart);
+                                                    }
+
+                                                    return "sukses";
+                                                }
+
+                                                @Override
+                                                protected void onPostExecute(String status) {
+                                                    System.out.println(status);
+                                                    if (status.equalsIgnoreCase("sukses")) {
+                                                        Toast.makeText(getBaseContext(), "Berhasil menambahkan ke cart!", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            }.execute();
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            },
+                            new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    System.out.println("error check stock product in detail product : " + error);
+                                }
                             }
 
-                            return "sukses";
-                        }
-
+                    ){
+                        @Nullable
                         @Override
-                        protected void onPostExecute(String status) {
-                            System.out.println(status);
-                            if (status.equalsIgnoreCase("sukses")) {
-                                Toast.makeText(getBaseContext(), "Berhasil menambahkan ke cart!", Toast.LENGTH_SHORT).show();
-                            }
+                        protected Map<String, String> getParams() throws AuthFailureError {
+                            Map<String, String> params = new HashMap<>();
+                            params.put("function","updatestock");
+                            params.put("idproduct", idProduct+"");
+                            params.put("jumlah", String.valueOf(jumlah));
+                            return params;
                         }
-                    }.execute();
+                    };
+
+                    RequestQueue requestQueue = Volley.newRequestQueue(getBaseContext());
+                    requestQueue.add(stringRequest);
+
+
                 }else{
                     //Toast.makeText(getBaseContext(), "Pastikan jumlah yang dibeli tepat", Toast.LENGTH_SHORT).show();
                 }

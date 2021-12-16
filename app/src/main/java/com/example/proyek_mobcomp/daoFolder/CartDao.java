@@ -24,6 +24,9 @@ public interface CartDao {
     @Query("select * from cart where idProduct = :idProduct and username = :username")
     List<cCart> getCartByIdProductAndUsername(int idProduct, String username);
 
+    @Query("delete from cart where username = :username")
+    void deleteCartByUsername(String username);
+
     @Insert
     void insertCart(cCart cart);
 
