@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.proyek_mobcomp.databinding.ActivityMainBinding;
 import com.example.proyek_mobcomp.databinding.ActivitySellerBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -29,13 +28,14 @@ public class SellerActivity extends AppCompatActivity {
             fragmentTransaction.replace(R.id.frContainer, sellerDashboardFragment);
             fragmentTransaction.commit();
         }
-//        else if (idx == 1){
-//            Seller customerSearchFragment = new CustomerSearchFragment();
-//            customerSearchFragment.setArguments(bundle);
-//            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//            fragmentTransaction.replace(R.id.frContainer, customerSearchFragment);
-//            fragmentTransaction.commit();
-//        }else if (idx == 2){
+        else if (idx == 1){
+            SellerListBarangFragment sellerListBarangFragment = new SellerListBarangFragment();
+            sellerListBarangFragment.setArguments(bundle);
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frContainer, sellerListBarangFragment);
+            fragmentTransaction.commit();
+        }
+//        else if (idx == 2){
 //            CustomerCartFragment customerCartFragment = new CustomerCartFragment();
 //            customerCartFragment.setArguments(bundle);
 //            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -61,7 +61,7 @@ public class SellerActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if(item.getItemId() == R.id.sellerdashboard) {
                     showFragment(0);
-                }else if(item.getItemId() == R.id.selleraddbarang) {
+                }else if(item.getItemId() == R.id.sellerlistbarang) {
                     showFragment(1);
                 }
                 else if(item.getItemId() == R.id.sellersaldo) {

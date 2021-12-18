@@ -7,9 +7,9 @@
         android:icon="@drawable/ic_home"
         android:title="Dashboard"/>
     <item
-        android:id="@+id/selleraddbarang"
-        android:icon="@drawable/ic_add"
-        android:title="Add Barang"/>
+        android:id="@+id/sellerlistbarang"
+        android:icon="@drawable/ic_list"
+        android:title="List Barang" />
 
     <item
         android:id="@+id/sellersaldo"
