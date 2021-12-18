@@ -18,6 +18,13 @@ public class cUser implements Parcelable {
         this.gambar = gambar;
     }
 
+    public cUser(String username, String nama, String toko, String gambar) {
+        this.username = username;
+        this.nama = nama;
+        this.toko = toko;
+        this.gambar = gambar;
+    }
+
     protected cUser(Parcel in) {
         username = in.readString();
         password = in.readString();

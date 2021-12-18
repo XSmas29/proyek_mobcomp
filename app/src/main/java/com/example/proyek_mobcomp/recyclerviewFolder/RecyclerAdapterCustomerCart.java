@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -173,7 +174,10 @@ public class RecyclerAdapterCustomerCart extends RecyclerView.Adapter<RecyclerAd
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                    if (s.length() == 150){
+                        Toast.makeText(itemView.getContext(), "Catatan telah mencapai 150 karakter", Toast.LENGTH_LONG).show();
+                        txtCatatan.clearFocus();
+                    }
                 }
 
                 @Override

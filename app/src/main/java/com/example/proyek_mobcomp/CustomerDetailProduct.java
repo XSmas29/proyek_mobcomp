@@ -397,7 +397,7 @@ public class CustomerDetailProduct extends AppCompatActivity {
 
                             JSONArray sellerArray = jsonObject.getJSONArray("dataseller");
                             for (int i = 0; i < sellerArray.length();i++) {
-                                nama = sellerArray.getJSONObject(i).getString("nama");
+                                nama = sellerArray.getJSONObject(i).getString("toko");
                                 gambar = sellerArray.getJSONObject(i).getString("gambar");
                                 binding.textViewNamaToko.setText(nama);
                                 Picasso.get().load(getResources().getString(R.string.url) + "/profile/" +

@@ -149,8 +149,9 @@
                     android:id="@+id/editText_catatan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Tulis catatan untuk produk ini..."
-                    android:textSize="14sp"/>
+                    android:hint="Tulis catatan untuk produk ini... (Maks.150 karakter)"
+                    android:textSize="14sp"
+                    android:maxLength="150"/>
             </LinearLayout>
         </LinearLayout>
 

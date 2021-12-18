@@ -24,6 +24,15 @@ public class cReview implements Parcelable {
         this.namalengkap = namalengkap;
     }
 
+    public cReview(int id, int fk_htrans, int fk_dtrans, String fk_user, int star, String isi) {
+        this.id = id;
+        this.fk_htrans = fk_htrans;
+        this.fk_dtrans = fk_dtrans;
+        this.fk_user = fk_user;
+        this.star = star;
+        this.isi = isi;
+    }
+
     protected cReview(Parcel in) {
         id = in.readInt();
         fk_htrans = in.readInt();

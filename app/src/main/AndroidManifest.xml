@@ -16,6 +16,9 @@
         android:theme="@style/Theme.Proyek_Mobcomp"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".CustomerDetailPurchaseActivity"
+            android:exported="false" />
+        <activity
             android:name=".CustomerSearchActivity"
             android:exported="true" />
         <activity

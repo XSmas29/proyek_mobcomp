@@ -46,6 +46,7 @@
         <entry key="..\:/Users/hansf/AndroidStudioProjects/proyek/myitem/proyek_mobcomp/app/src/main/res/drawable/ic_male.xml" value="0.21875" />
         <entry key="..\:/Users/hansf/AndroidStudioProjects/proyek/myitem/proyek_mobcomp/app/src/main/res/layout/activity_admin.xml" value="0.20260416666666667" />
         <entry key="..\:/Users/hansf/AndroidStudioProjects/proyek/myitem/proyek_mobcomp/app/src/main/res/layout/activity_customer_detail_product.xml" value="0.3625" />
+        <entry key="..\:/Users/hansf/AndroidStudioProjects/proyek/myitem/proyek_mobcomp/app/src/main/res/layout/activity_customer_detail_purchase.xml" value="0.21557971014492755" />
         <entry key="..\:/Users/hansf/AndroidStudioProjects/proyek/myitem/proyek_mobcomp/app/src/main/res/layout/activity_customer_home.xml" value="0.3625" />
         <entry key="..\:/Users/hansf/AndroidStudioProjects/proyek/myitem/proyek_mobcomp/app/src/main/res/layout/activity_customer_wishlist.xml" value="0.3484375" />
         <entry key="..\:/Users/hansf/AndroidStudioProjects/proyek/myitem/proyek_mobcomp/app/src/main/res/layout/activity_main.xml" value="0.2884963768115942" />
@@ -59,6 +60,8 @@
         <entry key="..\:/Users/hansf/AndroidStudioProjects/proyek/myitem/proyek_mobcomp/app/src/main/res/layout/fragment_dashboard_seller.xml" value="0.17603850050658562" />
         <entry key="..\:/Users/hansf/AndroidStudioProjects/proyek/myitem/proyek_mobcomp/app/src/main/res/layout/fragment_seller_dashboard.xml" value="0.25" />
         <entry key="..\:/Users/hansf/AndroidStudioProjects/proyek/myitem/proyek_mobcomp/app/src/main/res/layout/item_layout_barang_by_kategori.xml" value="0.3625" />
+        <entry key="..\:/Users/hansf/AndroidStudioProjects/proyek/myitem/proyek_mobcomp/app/src/main/res/layout/item_layout_cart.xml" value="0.21557971014492755" />
+        <entry key="..\:/Users/hansf/AndroidStudioProjects/proyek/myitem/proyek_mobcomp/app/src/main/res/layout/item_layout_detail_purchase.xml" value="0.33" />
         <entry key="..\:/Users/hansf/AndroidStudioProjects/proyek/myitem/proyek_mobcomp/app/src/main/res/layout/item_layout_list_withdraw.xml" value="0.2884963768115942" />
         <entry key="..\:/Users/hansf/AndroidStudioProjects/proyek/myitem/proyek_mobcomp/app/src/main/res/menu/bottom_menu.xml" value="0.20260416666666667" />
         <entry key="..\:/Users/hansf/AndroidStudioProjects/proyek/myitem/proyek_mobcomp/app/src/main/res/menu/bottommenuadmin.xml" value="0.20260416666666667" />

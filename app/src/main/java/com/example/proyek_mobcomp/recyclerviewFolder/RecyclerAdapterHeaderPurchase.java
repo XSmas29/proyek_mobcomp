@@ -1,6 +1,7 @@
 package com.example.proyek_mobcomp.recyclerviewFolder;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.proyek_mobcomp.CustomerDetailPurchaseActivity;
 import com.example.proyek_mobcomp.R;
 import com.example.proyek_mobcomp.classFolder.cCart;
 import com.example.proyek_mobcomp.classFolder.cHeaderPurchase;
@@ -83,7 +85,9 @@ public class RecyclerAdapterHeaderPurchase extends RecyclerView.Adapter<Recycler
             btnDetail.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    Intent i = new Intent(itemView.getContext(), CustomerDetailPurchaseActivity.class);
+                    i.putExtra("idHTrans", htrans.getId());
+                    itemView.getContext().startActivity(i);
                 }
             });
         }
