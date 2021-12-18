@@ -1,6 +1,8 @@
 package com.example.proyek_mobcomp.recyclerviewFolder;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,8 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.proyek_mobcomp.CustomerDetailProduct;
+import com.example.proyek_mobcomp.CustomerHomeActivity;
 import com.example.proyek_mobcomp.R;
 import com.example.proyek_mobcomp.classFolder.cProduct;
 import com.squareup.picasso.Picasso;
@@ -20,6 +25,7 @@ public class RecyclerAdapterCustomerSearchProduct extends RecyclerView.Adapter<R
 
     ArrayList<cProduct> arrProduct = new ArrayList<>();
     ArrayList<String[]> arrOwner = new ArrayList<>();
+
 
     public RecyclerAdapterCustomerSearchProduct(ArrayList<cProduct> arrProduct, ArrayList<String[]> arrOwner) {
         this.arrProduct = arrProduct;
@@ -57,13 +63,15 @@ public class RecyclerAdapterCustomerSearchProduct extends RecyclerView.Adapter<R
 
         ImageView imgToko;
         TextView namaToko;
+        CardView cardProduk;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            imgProduct = itemView.findViewById(R.id.imgSearchProduk);
-            namaProduct = itemView.findViewById(R.id.lbNamaSearchProduk);
-            hargaProduct = itemView.findViewById(R.id.lbHargaSearchProduk);
+            cardProduk = itemView.findViewById(R.id.cardProdukSearchGrid);
+            imgProduct = itemView.findViewById(R.id.imgListProduk);
+            namaProduct = itemView.findViewById(R.id.lbNamaListProduk);
+            hargaProduct = itemView.findViewById(R.id.lbHargaListProduk);
 
             imgToko = itemView.findViewById(R.id.imgSearchToko);
             namaToko = itemView.findViewById(R.id.lbSearchToko);
@@ -84,6 +92,16 @@ public class RecyclerAdapterCustomerSearchProduct extends RecyclerView.Adapter<R
                     arrOwner.get(position)[1]);
 
             namaToko.setText(arrOwner.get(position)[0]);
+
+            cardProduk.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(itemView.getContext(), CustomerDetailProduct.class);
+                    i.putExtra("idproduct", arrProduct.get(position).getId());
+                    i.putExtra("login", CustomerHomeActivity.login);
+                    ((Activity)itemView.getContext()).startActivityForResult(i, 100);
+                }
+            });
         }
     }
 }

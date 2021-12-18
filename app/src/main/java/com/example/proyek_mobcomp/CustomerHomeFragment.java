@@ -1,5 +1,7 @@
 package com.example.proyek_mobcomp;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -10,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -24,6 +27,7 @@ import com.example.proyek_mobcomp.classFolder.cWishlist;
 import com.example.proyek_mobcomp.databinding.FragmentCustomerHomeBinding;
 import com.example.proyek_mobcomp.recyclerviewFolder.RecyclerAdapterCustomerHomeProduct;
 import com.squareup.picasso.Picasso;
+import com.synnapps.carouselview.ImageClickListener;
 import com.synnapps.carouselview.ImageListener;
 
 import org.json.JSONArray;
@@ -117,6 +121,15 @@ public class CustomerHomeFragment extends Fragment {
 
                                 binding.carouselView.setImageListener(imageListener);
                                 binding.carouselView.setPageCount(8);
+                                binding.carouselView.setImageClickListener(new ImageClickListener() {
+                                    @Override
+                                    public void onClick(int position) {
+                                        Intent i = new Intent(getContext(), CustomerDetailProduct.class);
+                                        i.putExtra("idproduct", CustomerHomeActivity.listCarousel.get(position).getId());
+                                        i.putExtra("login", CustomerHomeActivity.login);
+                                        ((Activity)getContext()).startActivityForResult(i, 100);
+                                    }
+                                });
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

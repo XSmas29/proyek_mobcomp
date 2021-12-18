@@ -19,8 +19,6 @@ import com.example.proyek_mobcomp.classFolder.cReview;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
@@ -62,7 +60,7 @@ public class RecyclerAdapterReview extends RecyclerView.Adapter<RecyclerAdapterR
         TextView reviewer, waktu, isi;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            cardView = itemView.findViewById(R.id.cardView);
+            cardView = itemView.findViewById(R.id.cardProdukSearchGrid);
             arrStar[0] = itemView.findViewById(R.id.imageView_starReview0);
             arrStar[1] = itemView.findViewById(R.id.imageView_starReview1);
             arrStar[2] = itemView.findViewById(R.id.imageView_starReview2);

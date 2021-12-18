@@ -15,12 +15,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class SellerActivity extends AppCompatActivity {
 
     protected ActivitySellerBinding binding;
-
-    String login;
+    public static String login;
 
     public void showFragment(int idx) {
         Bundle bundle = new Bundle();
-        //bundle.putString("login", login);
+        bundle.putString("login", login);
         if (idx == 0){
             SellerDashboardFragment sellerDashboardFragment = new SellerDashboardFragment();
             sellerDashboardFragment.setArguments(bundle);

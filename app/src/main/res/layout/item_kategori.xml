@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
+        android:id="@+id/cardProdukSearchGrid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -34,14 +34,14 @@
             android:padding="4dp">
 
             <ImageView
-                android:id="@+id/imgSearchProduk"
+                android:id="@+id/imgListProduk"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/lbNamaSearchProduk"
+                android:id="@+id/lbNamaListProduk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -51,7 +51,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/lbHargaSearchProduk"
+                android:id="@+id/lbHargaListProduk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -70,7 +70,7 @@
         app:cardElevation="4dp"
         app:cardMaxElevation="4dp"
         app:cardUseCompatPadding="true"
-        app:layout_constraintStart_toEndOf="@+id/cardView"
+        app:layout_constraintStart_toEndOf="@+id/cardProdukSearchGrid"
         app:layout_constraintTop_toBottomOf="@+id/lbNamaKategori">
 
         <LinearLayout

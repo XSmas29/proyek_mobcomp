@@ -6,6 +6,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -62,6 +63,13 @@ public class CustomerSearchActivity extends AppCompatActivity {
             binding.txtKeyword.setText("Search Result for '" + getIntent().getStringExtra("keyword") + "'");
             loadSearch("All", "-1", "-1");
         }
+
+        binding.btnBackfromSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
     }
 
     private void loadSearch(String kategori, String min, String max) {
