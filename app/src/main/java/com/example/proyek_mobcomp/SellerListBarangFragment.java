@@ -25,6 +25,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.proyek_mobcomp.classFolder.cKategori;
 import com.example.proyek_mobcomp.classFolder.cProduct;
+import com.example.proyek_mobcomp.databinding.ActivitySellerAddEditBarangBinding;
 import com.example.proyek_mobcomp.databinding.FragmentSellerListBarangBinding;
 import com.example.proyek_mobcomp.recyclerviewFolder.RecyclerAdapterCustomerSearchProduct;
 import com.example.proyek_mobcomp.recyclerviewFolder.RecyclerAdapterSellerListProduct;
@@ -64,6 +65,17 @@ public class SellerListBarangFragment extends Fragment {
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (!binding.spFilterSellerKategori.getSelectedItem().toString().equalsIgnoreCase("semua kategori")){
+            loadproduk(binding.spFilterSellerKategori.getSelectedItem().toString());
+        }
+        else{
+            loadproduk("All");
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -71,6 +83,13 @@ public class SellerListBarangFragment extends Fragment {
         getkategori();
         loadproduk("All");
 
+        binding.btnAddProduk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), SellerAddEditBarangActivity.class);
+                startActivityForResult(i, 1);
+            }
+        });
 
         binding.spFilterSellerKategori.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -78,6 +97,9 @@ public class SellerListBarangFragment extends Fragment {
                 System.out.println(adapterView.getSelectedItem().toString());
                 if (!adapterView.getSelectedItem().toString().equalsIgnoreCase("semua kategori")){
                     loadproduk(adapterView.getSelectedItem().toString());
+                }
+                else{
+                    loadproduk("All");
                 }
             }
 
@@ -203,6 +225,14 @@ public class SellerListBarangFragment extends Fragment {
         binding.rvListProduk.setHasFixedSize(true);
 
         recyclerAdapterSellerListProduct = new RecyclerAdapterSellerListProduct(listProduk);
+        recyclerAdapterSellerListProduct.setOnItemClickCallback(new RecyclerAdapterSellerListProduct.OnItemClickCallback() {
+            @Override
+            public void onItemClicked(cProduct product) {
+                Intent i = new Intent(getActivity(), SellerAddEditBarangActivity.class);
+                i.putExtra("produk", product);
+                startActivityForResult(i, 2);
+            }
+        });
         binding.rvListProduk.setAdapter(recyclerAdapterSellerListProduct);
     }
 }

@@ -1,9 +1,11 @@
 package com.example.proyek_mobcomp.recyclerviewFolder;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -12,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyek_mobcomp.R;
+import com.example.proyek_mobcomp.SellerAddEditBarangActivity;
+import com.example.proyek_mobcomp.SellerListBarangFragment;
 import com.example.proyek_mobcomp.classFolder.cProduct;
 import com.example.proyek_mobcomp.classFolder.cReview;
 import com.squareup.picasso.Picasso;
@@ -21,9 +25,14 @@ import java.util.ArrayList;
 public class RecyclerAdapterSellerListProduct extends RecyclerView.Adapter<RecyclerAdapterSellerListProduct.ViewHolder> {
 
     ArrayList<cProduct> listProduk = new ArrayList<>();
+    OnItemClickCallback onItemClickCallback;
 
     public RecyclerAdapterSellerListProduct(ArrayList<cProduct> listProduk) {
         this.listProduk = listProduk;
+    }
+
+    public void setOnItemClickCallback(OnItemClickCallback onItemClickCallback) {
+        this.onItemClickCallback = onItemClickCallback;
     }
 
     @NonNull
@@ -42,6 +51,13 @@ public class RecyclerAdapterSellerListProduct extends RecyclerView.Adapter<Recyc
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         cProduct produk = listProduk.get(position);
         holder.bind(produk, position);
+
+        holder.btnUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onItemClickCallback.onItemClicked(produk);
+            }
+        });
     }
 
     @Override
@@ -56,6 +72,7 @@ public class RecyclerAdapterSellerListProduct extends RecyclerView.Adapter<Recyc
         TextView txtNamaProduk;
         TextView txtHargaProduk;
         TextView txtStokProduk;
+        Button btnUpdate;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -64,6 +81,8 @@ public class RecyclerAdapterSellerListProduct extends RecyclerView.Adapter<Recyc
             txtNamaProduk = itemView.findViewById(R.id.lbNamaListProduk);
             txtHargaProduk = itemView.findViewById(R.id.lbHargaListProduk);
             txtStokProduk = itemView.findViewById(R.id.lbStokListProduk);
+            btnUpdate = itemView.findViewById(R.id.btnEditlistProduk);
+
         }
 
         public void bind(cProduct produk, int position) {
@@ -75,5 +94,9 @@ public class RecyclerAdapterSellerListProduct extends RecyclerView.Adapter<Recyc
             txtHargaProduk.setText("Rp. " + listProduk.get(position).getHarga());
             txtStokProduk.setText("Stok : " + listProduk.get(position).getStok());
         }
+    }
+
+    public interface OnItemClickCallback{
+        void onItemClicked(cProduct product);
     }
 }
