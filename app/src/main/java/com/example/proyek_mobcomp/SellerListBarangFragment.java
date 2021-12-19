@@ -47,7 +47,6 @@ public class SellerListBarangFragment extends Fragment {
 
     ArrayList<cProduct> listProduk = new ArrayList<>();
     ArrayList<cKategori> listKategori = new ArrayList<>();
-
     RecyclerAdapterSellerListProduct recyclerAdapterSellerListProduct;
 
     public static SellerListBarangFragment newInstance() {
