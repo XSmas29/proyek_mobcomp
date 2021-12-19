@@ -26,16 +26,28 @@
         <entry key="..\:/Users/Surya Bumantara/Documents/semester 5/MobileComp/proyek/proyek_mobcomp/app/src/main/res/layout/activity_customer_detail_product.xml" value="0.33" />
         <entry key="..\:/Users/Surya Bumantara/Documents/semester 5/MobileComp/proyek/proyek_mobcomp/app/src/main/res/layout/activity_customer_home.xml" value="0.23854166666666668" />
         <entry key="..\:/Users/Surya Bumantara/Documents/semester 5/MobileComp/proyek/proyek_mobcomp/app/src/main/res/layout/activity_customer_search.xml" value="0.33" />
+<<<<<<< Updated upstream
+=======
+        <entry key="..\:/Users/Surya Bumantara/Documents/semester 5/MobileComp/proyek/proyek_mobcomp/app/src/main/res/layout/activity_seller.xml" value="0.2635416666666667" />
+        <entry key="..\:/Users/Surya Bumantara/Documents/semester 5/MobileComp/proyek/proyek_mobcomp/app/src/main/res/layout/activity_seller_add_edit_barang.xml" value="0.25" />
+>>>>>>> Stashed changes
         <entry key="..\:/Users/Surya Bumantara/Documents/semester 5/MobileComp/proyek/proyek_mobcomp/app/src/main/res/layout/dialog_filter.xml" value="0.25" />
         <entry key="..\:/Users/Surya Bumantara/Documents/semester 5/MobileComp/proyek/proyek_mobcomp/app/src/main/res/layout/fragment_customer_home.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/Surya Bumantara/Documents/semester 5/MobileComp/proyek/proyek_mobcomp/app/src/main/res/layout/fragment_customer_search.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/Surya Bumantara/Documents/semester 5/MobileComp/proyek/proyek_mobcomp/app/src/main/res/layout/fragment_seller_add_barang.xml" value="0.2635416666666667" />
         <entry key="..\:/Users/Surya Bumantara/Documents/semester 5/MobileComp/proyek/proyek_mobcomp/app/src/main/res/layout/fragment_seller_dashboard.xml" value="0.20520833333333333" />
+<<<<<<< Updated upstream
+=======
+        <entry key="..\:/Users/Surya Bumantara/Documents/semester 5/MobileComp/proyek/proyek_mobcomp/app/src/main/res/layout/fragment_seller_list_barang.xml" value="0.25677083333333334" />
+        <entry key="..\:/Users/Surya Bumantara/Documents/semester 5/MobileComp/proyek/proyek_mobcomp/app/src/main/res/layout/fragment_seller_saldo.xml" value="0.26145833333333335" />
+        <entry key="..\:/Users/Surya Bumantara/Documents/semester 5/MobileComp/proyek/proyek_mobcomp/app/src/main/res/layout/item_barang_seller.xml" value="0.33" />
+>>>>>>> Stashed changes
         <entry key="..\:/Users/Surya Bumantara/Documents/semester 5/MobileComp/proyek/proyek_mobcomp/app/src/main/res/layout/item_kategori.xml" value="0.25" />
         <entry key="..\:/Users/Surya Bumantara/Documents/semester 5/MobileComp/proyek/proyek_mobcomp/app/src/main/res/layout/item_layout_barang_by_kategori.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/Surya Bumantara/Documents/semester 5/MobileComp/proyek/proyek_mobcomp/app/src/main/res/layout/item_layout_list_user.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/Surya Bumantara/Documents/semester 5/MobileComp/proyek/proyek_mobcomp/app/src/main/res/layout/item_layout_list_withdraw.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/Surya Bumantara/Documents/semester 5/MobileComp/proyek/proyek_mobcomp/app/src/main/res/layout/item_search_grid.xml" value="0.25" />
+        <entry key="..\:/Users/Surya Bumantara/Documents/semester 5/MobileComp/proyek/proyek_mobcomp/app/src/main/res/layout/item_topup_seller.xml" value="0.26145833333333335" />
         <entry key="..\:/Users/Surya Bumantara/Documents/semester 5/MobileComp/proyek/proyek_mobcomp/app/src/main/res/menu/navmenu_seller.xml" value="0.2635416666666667" />
         <entry key="..\:/Users/hansf/AndroidStudioProjects/proyek/myitem/proyek_mobcomp/app/src/main/res/drawable/frame.xml" value="0.37864583333333335" />
         <entry key="..\:/Users/hansf/AndroidStudioProjects/proyek/myitem/proyek_mobcomp/app/src/main/res/drawable/ic_add.xml" value="0.37864583333333335" />
@@ -46,7 +58,6 @@
         <entry key="..\:/Users/hansf/AndroidStudioProjects/proyek/myitem/proyek_mobcomp/app/src/main/res/drawable/ic_male.xml" value="0.21875" />
         <entry key="..\:/Users/hansf/AndroidStudioProjects/proyek/myitem/proyek_mobcomp/app/src/main/res/layout/activity_admin.xml" value="0.20260416666666667" />
         <entry key="..\:/Users/hansf/AndroidStudioProjects/proyek/myitem/proyek_mobcomp/app/src/main/res/layout/activity_customer_detail_product.xml" value="0.3625" />
-        <entry key="..\:/Users/hansf/AndroidStudioProjects/proyek/myitem/proyek_mobcomp/app/src/main/res/layout/activity_customer_detail_purchase.xml" value="0.21557971014492755" />
         <entry key="..\:/Users/hansf/AndroidStudioProjects/proyek/myitem/proyek_mobcomp/app/src/main/res/layout/activity_customer_home.xml" value="0.3625" />
         <entry key="..\:/Users/hansf/AndroidStudioProjects/proyek/myitem/proyek_mobcomp/app/src/main/res/layout/activity_customer_profile.xml" value="0.3625" />
         <entry key="..\:/Users/hansf/AndroidStudioProjects/proyek/myitem/proyek_mobcomp/app/src/main/res/layout/activity_customer_top_up_saldo.xml" value="0.33" />
@@ -64,8 +75,6 @@
         <entry key="..\:/Users/hansf/AndroidStudioProjects/proyek/myitem/proyek_mobcomp/app/src/main/res/layout/fragment_dashboard_seller.xml" value="0.17603850050658562" />
         <entry key="..\:/Users/hansf/AndroidStudioProjects/proyek/myitem/proyek_mobcomp/app/src/main/res/layout/fragment_seller_dashboard.xml" value="0.25" />
         <entry key="..\:/Users/hansf/AndroidStudioProjects/proyek/myitem/proyek_mobcomp/app/src/main/res/layout/item_layout_barang_by_kategori.xml" value="0.3625" />
-        <entry key="..\:/Users/hansf/AndroidStudioProjects/proyek/myitem/proyek_mobcomp/app/src/main/res/layout/item_layout_cart.xml" value="0.21557971014492755" />
-        <entry key="..\:/Users/hansf/AndroidStudioProjects/proyek/myitem/proyek_mobcomp/app/src/main/res/layout/item_layout_detail_purchase.xml" value="0.33" />
         <entry key="..\:/Users/hansf/AndroidStudioProjects/proyek/myitem/proyek_mobcomp/app/src/main/res/layout/item_layout_list_withdraw.xml" value="0.2884963768115942" />
         <entry key="..\:/Users/hansf/AndroidStudioProjects/proyek/myitem/proyek_mobcomp/app/src/main/res/layout/item_layout_wishlist.xml" value="0.3625" />
         <entry key="..\:/Users/hansf/AndroidStudioProjects/proyek/myitem/proyek_mobcomp/app/src/main/res/menu/bottom_menu.xml" value="0.20260416666666667" />
