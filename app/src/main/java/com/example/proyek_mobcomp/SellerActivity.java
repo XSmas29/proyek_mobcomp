@@ -34,7 +34,14 @@ public class SellerActivity extends AppCompatActivity {
             fragmentTransaction.replace(R.id.frContainer, sellerListBarangFragment);
             fragmentTransaction.commit();
         }
-//        else if (idx == 2){
+        else if (idx == 2){
+            SellerSaldoFragment sellerSaldoFragment = new SellerSaldoFragment();
+            sellerSaldoFragment.setArguments(bundle);
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frContainer, sellerSaldoFragment);
+            fragmentTransaction.commit();
+        }
+//        else if (idx == 3){
 //            CustomerCartFragment customerCartFragment = new CustomerCartFragment();
 //            customerCartFragment.setArguments(bundle);
 //            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
