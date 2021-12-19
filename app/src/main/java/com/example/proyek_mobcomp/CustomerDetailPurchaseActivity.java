@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -61,6 +62,7 @@ public class CustomerDetailPurchaseActivity extends AppCompatActivity {
     }
 
     public void getTransData() {
+        binding.progressBar.setVisibility(View.VISIBLE);
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
                 getResources().getString(R.string.url) + "/customer/gettransdata",
@@ -190,5 +192,6 @@ public class CustomerDetailPurchaseActivity extends AppCompatActivity {
                 arrSeller, arrProduct, this
         );
         binding.recyclerViewCustDTrans.setAdapter(recyclerAdapterDetailPurchase);
+        binding.progressBar.setVisibility(View.INVISIBLE);
     }
 }

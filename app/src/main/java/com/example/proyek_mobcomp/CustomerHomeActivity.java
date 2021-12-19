@@ -1,9 +1,11 @@
 package com.example.proyek_mobcomp;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -31,6 +33,9 @@ public class CustomerHomeActivity extends AppCompatActivity {
 
     public static String login;
 
+    CustomerWishlistFragment customerWishlistFragment;
+    CustomerCartFragment customerCartFragment;
+
     public void showFragment(int idx) {
 
         Bundle bundle = new Bundle();
@@ -48,13 +53,13 @@ public class CustomerHomeActivity extends AppCompatActivity {
             fragmentTransaction.replace(R.id.frContainer, customerHeaderPurchaseHistoryFragment);
             fragmentTransaction.commit();
         }else if (idx == 2){
-//            CustomerCartFragment customerCartFragment = new CustomerCartFragment();
-//            customerCartFragment.setArguments(bundle);
-//            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//            fragmentTransaction.replace(R.id.frContainer, customerCartFragment);
-//            fragmentTransaction.commit();
+            customerWishlistFragment = new CustomerWishlistFragment();
+            customerWishlistFragment.setArguments(bundle);
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frContainer, customerWishlistFragment);
+            fragmentTransaction.commit();
         }else if (idx == 3){
-            CustomerCartFragment customerCartFragment = new CustomerCartFragment();
+            customerCartFragment = new CustomerCartFragment();
             customerCartFragment.setArguments(bundle);
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.frContainer, customerCartFragment);
@@ -74,8 +79,11 @@ public class CustomerHomeActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if(item.getItemId() == R.id.profile){
-//                    Intent i = new Intent(CustomerHomeActivity.this, CustomerWishlistActivity.class);
-//                    startActivity(i);
+                    Intent i = new Intent(CustomerHomeActivity.this, CustomerProfileActivity.class);
+                    startActivity(i);
+                }else if(item.getItemId() == R.id.topup_saldo){
+                    Intent i = new Intent(CustomerHomeActivity.this, CustomerTopUpSaldoActivity.class);
+                    startActivity(i);
                 }else if(item.getItemId() == R.id.logout){
                     SharedPreferences sharedpreferences = getSharedPreferences("data", MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedpreferences.edit();
@@ -143,5 +151,17 @@ public class CustomerHomeActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 120) { // dari customer wishlist fragment
+            customerWishlistFragment.getWishlistData();
+        }else if(requestCode == 130) { // dari csutomer cart fragment
+//            if(resultCode == Activity.RESULT_OK) {
+                customerCartFragment.setRv();
+//            }
+        }
     }
 }

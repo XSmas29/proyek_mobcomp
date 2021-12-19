@@ -1,6 +1,8 @@
 package com.example.proyek_mobcomp.recyclerviewFolder;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -9,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +28,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.proyek_mobcomp.AppDatabase;
 import com.example.proyek_mobcomp.CustomerCartFragment;
+import com.example.proyek_mobcomp.CustomerDetailProduct;
+import com.example.proyek_mobcomp.CustomerHomeActivity;
 import com.example.proyek_mobcomp.R;
 import com.example.proyek_mobcomp.classFolder.cCart;
 import com.example.proyek_mobcomp.classFolder.cKategori;
@@ -71,6 +76,7 @@ public class RecyclerAdapterCustomerCart extends RecyclerView.Adapter<RecyclerAd
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         AppDatabase db;
+        LinearLayout ll;
         ImageView profileToko, fotoProduct;
         TextView txtNamaToko, txtNamaProduct, txtHargaProduct, txtJumlah, txtTotal;
         ImageButton btnDelete;
@@ -78,6 +84,7 @@ public class RecyclerAdapterCustomerCart extends RecyclerView.Adapter<RecyclerAd
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             db = AppDatabase.getInstance(itemView.getContext());
+            ll = itemView.findViewById(R.id.ll);
             profileToko = itemView.findViewById(R.id.imageView_profileToko);
             fotoProduct = itemView.findViewById(R.id.imageView_productPicture);
             txtNamaToko = itemView.findViewById(R.id.textView_namaToko);
@@ -156,6 +163,16 @@ public class RecyclerAdapterCustomerCart extends RecyclerView.Adapter<RecyclerAd
 
             RequestQueue requestQueue = Volley.newRequestQueue(itemView.getContext());
             requestQueue.add(stringRequest);
+
+            ll.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(itemView.getContext(), CustomerDetailProduct.class);
+                    i.putExtra("idproduct", cart.getIdProduct());
+                    i.putExtra("login", CustomerHomeActivity.login);
+                    ((Activity)itemView.getContext()).startActivityForResult(i, 130);
+                }
+            });
 
             btnDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
