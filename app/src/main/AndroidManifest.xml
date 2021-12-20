@@ -16,6 +16,9 @@
         android:theme="@style/Theme.Proyek_Mobcomp"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".SellerProfileActivity"
+            android:exported="true" />
+        <activity
             android:name=".SellerDetailTransaksiActivity"
             android:exported="true" />
         <activity

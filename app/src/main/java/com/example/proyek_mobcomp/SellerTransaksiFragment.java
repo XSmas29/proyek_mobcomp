@@ -1,5 +1,6 @@
 package com.example.proyek_mobcomp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -78,7 +79,13 @@ public class SellerTransaksiFragment extends Fragment {
         return binding.getRoot();
     }
 
-    private void loadHistory() {
+    public void resetSpinner(){
+        binding.spFilterTransaksiSeller.setSelection(0);
+        loadHistory();
+    }
+
+    public void loadHistory() {
+
         listBarangTrans = new ArrayList<>();
         listTrans = new ArrayList<>();
         StringRequest stringRequest = new StringRequest(
@@ -157,7 +164,7 @@ public class SellerTransaksiFragment extends Fragment {
                 Intent i = new Intent(getActivity(), SellerDetailTransaksiActivity.class);
                 i.putExtra("detail", detail);
                 i.putExtra("produk", produk);
-                startActivity(i);
+                getActivity().startActivityForResult(i, 200);
             }
         });
         binding.rvTrans.setAdapter(recyclerAdapterSellerTransaksi);

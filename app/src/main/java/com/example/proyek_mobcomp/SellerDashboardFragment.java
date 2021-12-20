@@ -99,6 +99,10 @@ public class SellerDashboardFragment extends Fragment {
                     editor.commit();
                     getActivity().finish();
                 }
+                else if(item.getItemId() == R.id.profile){
+                    Intent i = new Intent(getActivity(), SellerProfileActivity.class);
+                    startActivity(i);
+                }
                 return true;
             }
         });

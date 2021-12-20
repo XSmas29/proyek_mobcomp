@@ -48,7 +48,7 @@ public class SellerListBarangFragment extends Fragment {
     ArrayList<cProduct> listProduk = new ArrayList<>();
     ArrayList<cKategori> listKategori = new ArrayList<>();
     RecyclerAdapterSellerListProduct recyclerAdapterSellerListProduct;
-
+    ArrayList<String> listNamaKategori;
     public static SellerListBarangFragment newInstance() {
         SellerListBarangFragment fragment = new SellerListBarangFragment();
         Bundle args = new Bundle();
@@ -132,7 +132,7 @@ public class SellerListBarangFragment extends Fragment {
                                 listKategori.add(new cKategori(id, nama, tipe));
                             }
 
-                            ArrayList<String> listNamaKategori = new ArrayList<>();
+                            listNamaKategori = new ArrayList<>();
                             listNamaKategori.add("Semua Kategori");
                             for (int i = 0; i < listKategori.size(); i++) {
                                 listNamaKategori.add(listKategori.get(i).getNama());
@@ -141,7 +141,6 @@ public class SellerListBarangFragment extends Fragment {
                             ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, listNamaKategori);
                             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             binding.spFilterSellerKategori.setAdapter(adapter);
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -162,7 +161,7 @@ public class SellerListBarangFragment extends Fragment {
             }
         };
 
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(stringRequest);
     }
 
@@ -191,7 +190,6 @@ public class SellerListBarangFragment extends Fragment {
 
                                 listProduk.add(new cProduct(id, fk_seller, fk_kategori, nama, deskripsi, harga, stok, gambar, is_deleted));
                             }
-
                             SetupRvProduk();
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -215,7 +213,7 @@ public class SellerListBarangFragment extends Fragment {
             }
         };
 
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(stringRequest);
     }
 

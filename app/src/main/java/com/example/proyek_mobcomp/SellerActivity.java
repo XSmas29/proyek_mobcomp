@@ -1,11 +1,14 @@
 package com.example.proyek_mobcomp;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -16,6 +19,7 @@ public class SellerActivity extends AppCompatActivity {
 
     protected ActivitySellerBinding binding;
     public static String login;
+    SellerTransaksiFragment sellerTransaksiFragment;
 
     public void showFragment(int idx) {
         Bundle bundle = new Bundle();
@@ -42,7 +46,7 @@ public class SellerActivity extends AppCompatActivity {
             fragmentTransaction.commit();
         }
         else if (idx == 3){
-            SellerTransaksiFragment sellerTransaksiFragment = new SellerTransaksiFragment();
+            sellerTransaksiFragment = new SellerTransaksiFragment();
             sellerTransaksiFragment.setArguments(bundle);
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.frContainer, sellerTransaksiFragment);
@@ -54,7 +58,6 @@ public class SellerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seller);
-
         binding = ActivitySellerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -81,12 +84,13 @@ public class SellerActivity extends AppCompatActivity {
         });
     }
 
+
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.optionsmenuseller, menu);
-        //getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 200){
+            sellerTransaksiFragment.resetSpinner();
+        }
     }
 }

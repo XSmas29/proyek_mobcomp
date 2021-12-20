@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -16,6 +17,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.proyek_mobcomp.classFolder.cDetailPurchase;
+import com.example.proyek_mobcomp.classFolder.cKategori;
 import com.example.proyek_mobcomp.classFolder.cProduct;
 import com.example.proyek_mobcomp.databinding.ActivitySellerDetailTransaksiBinding;
 import com.squareup.picasso.Picasso;
@@ -56,28 +58,7 @@ public class SellerDetailTransaksiActivity extends AppCompatActivity {
         binding.edNotesCustomer.setText(detail.getNotes_customer());
 
 
-        if (detail.getStatus().equalsIgnoreCase("pending")){
-            binding.layoutSellerDetail1.setVisibility(View.VISIBLE);
-            binding.lbSellerStatusDetail.setTextColor(getResources().getColor(R.color.yellow));
-            binding.lbSellerStatusDetail.setText("Status : Pending");
-        }
-        else if (detail.getStatus().equalsIgnoreCase("processing")){
-            binding.layoutSellerDetail2.setVisibility(View.VISIBLE);
-            binding.lbSellerStatusDetail.setTextColor(getResources().getColor(R.color.yellow));
-            binding.lbSellerStatusDetail.setText("Status : Processing");
-        }
-        else if (detail.getStatus().equalsIgnoreCase("sent")){
-            binding.lbSellerStatusDetail.setTextColor(getResources().getColor(R.color.yellow));
-            binding.lbSellerStatusDetail.setText("Status : Sent");
-        }
-        else if (detail.getStatus().equalsIgnoreCase("completed")){
-            binding.lbSellerStatusDetail.setTextColor(getResources().getColor(R.color.green));
-            binding.lbSellerStatusDetail.setText("Status : Completed");
-        }
-        else{
-            binding.lbSellerStatusDetail.setTextColor(getResources().getColor(R.color.red));
-            binding.lbSellerStatusDetail.setText("Status : Rejected");
-        }
+        refreshData();
 
         binding.btnSellerRejectTransaksi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,7 +83,6 @@ public class SellerDetailTransaksiActivity extends AppCompatActivity {
                 else{
                     updateTransaksi("sent");
                 }
-
             }
         });
     }
@@ -122,30 +102,21 @@ public class SellerDetailTransaksiActivity extends AppCompatActivity {
                             if (code == 1){
                                 Toast.makeText(getApplicationContext(), "Berhasil Reject Transaksi!", Toast.LENGTH_SHORT).show();
                                 detail.setStatus("rejected");
-                                Intent i = new Intent(getApplicationContext(), SellerDetailTransaksiActivity.class);
-                                i.putExtra("produk", produk);
-                                i.putExtra("detail", detail);
-                                startActivity(i);
                             }
                             else if (code == 2){
                                 Toast.makeText(getApplicationContext(), "Berhasil Accept Transaksi!", Toast.LENGTH_SHORT).show();
                                 detail.setStatus("processing");
-                                Intent i = new Intent(getApplicationContext(), SellerDetailTransaksiActivity.class);
-                                i.putExtra("produk", produk);
-                                i.putExtra("detail", detail);
-                                startActivity(i);
                             }
                             else if (code == 3){
                                 Toast.makeText(getApplicationContext(), "Berhasil Send Produk!", Toast.LENGTH_SHORT).show();
                                 detail.setStatus("sent");
-                                Intent i = new Intent(getApplicationContext(), SellerDetailTransaksiActivity.class);
-                                i.putExtra("produk", produk);
-                                i.putExtra("detail", detail);
-                                startActivity(i);
+                                detail.setNotes_seller(binding.edNotesSeller.getText().toString());
+
                             }
                             else{
                                 Toast.makeText(getApplicationContext(), "Stok Barang Tidak Cukup!", Toast.LENGTH_SHORT).show();
                             }
+                            refreshData();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -173,10 +144,107 @@ public class SellerDetailTransaksiActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-    @Override
-    public void onBackPressed() {
-        Intent i = new Intent(this, SellerActivity.class);
-        i.putExtra("login", SellerActivity.login);
-        startActivity(i);
+    private void refreshData() {
+        if (detail.getStatus().equalsIgnoreCase("pending")){
+            binding.layoutSellerDetail2.setVisibility(View.GONE);
+            binding.layoutSellerDetail4.setVisibility(View.GONE);
+            binding.layoutSellerDetail1.setVisibility(View.VISIBLE);
+
+            binding.lbSellerStatusDetail.setTextColor(getResources().getColor(R.color.yellow));
+            binding.lbSellerStatusDetail.setText("Status : Pending");
+        }
+        else if (detail.getStatus().equalsIgnoreCase("processing")){
+            binding.layoutSellerDetail1.setVisibility(View.GONE);
+            binding.layoutSellerDetail4.setVisibility(View.GONE);
+            binding.layoutSellerDetail2.setVisibility(View.VISIBLE);
+
+            binding.lbSellerStatusDetail.setTextColor(getResources().getColor(R.color.yellow));
+            binding.lbSellerStatusDetail.setText("Status : Processing");
+        }
+        else if (detail.getStatus().equalsIgnoreCase("sent")){
+            binding.layoutSellerDetail2.setVisibility(View.GONE);
+            binding.layoutSellerDetail1.setVisibility(View.GONE);
+            binding.layoutSellerDetail4.setVisibility(View.GONE);
+
+            binding.edNotesSeller.setEnabled(false);
+            binding.edNotesSeller.setText(detail.getNotes_seller());
+
+            binding.lbSellerStatusDetail.setTextColor(getResources().getColor(R.color.yellow));
+            binding.lbSellerStatusDetail.setText("Status : Sent");
+        }
+        else if (detail.getStatus().equalsIgnoreCase("completed")){
+            binding.layoutSellerDetail2.setVisibility(View.GONE);
+            binding.layoutSellerDetail1.setVisibility(View.GONE);
+
+            binding.edNotesSeller.setEnabled(false);
+            binding.edNotesSeller.setText(detail.getNotes_seller());
+
+            binding.lbSellerStatusDetail.setTextColor(getResources().getColor(R.color.green));
+            binding.lbSellerStatusDetail.setText("Status : Completed");
+            cekReview();
+        }
+        else{
+            binding.layoutSellerDetail2.setVisibility(View.GONE);
+            binding.layoutSellerDetail1.setVisibility(View.GONE);
+            binding.layoutSellerDetail4.setVisibility(View.GONE);
+
+            binding.edNotesSeller.setEnabled(false);
+            binding.lbSellerStatusDetail.setTextColor(getResources().getColor(R.color.red));
+            binding.lbSellerStatusDetail.setText("Status : Rejected");
+        }
+    }
+
+    private void cekReview() {
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.POST,
+                getResources().getString(R.string.url) + "/seller/getreview",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        System.out.println(response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONObject review = jsonObject.getJSONObject("review");
+                            if (review != null){
+                                binding.layoutSellerDetail4.setVisibility(View.VISIBLE);
+                                ImageView[] arrStar = {binding.imgStarReview1, binding.imgStarReview2, binding.imgStarReview3, binding.imgStarReview4, binding.imgStarReview5};
+                                for (int i = 0; i < 5; i++) {
+                                    if (review.getInt("star") > i){
+                                        Picasso.get()
+                                                .load(getResources().getString(R.string.url) + "/star.png")
+                                                .into(arrStar[i]);
+                                    }
+                                    else{
+                                        Picasso.get()
+                                                .load(getResources().getString(R.string.url) + "/star-nocolor.png")
+                                                .into(arrStar[i]);
+                                    }
+                                }
+                                binding.lbSellerReviewIsi.setText(review.getString("isi"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        System.out.println("error get review : " + error.getMessage());
+                    }
+                }
+        ){
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("id", detail.getId() + "");
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
     }
 }

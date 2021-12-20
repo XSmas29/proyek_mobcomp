@@ -64,6 +64,7 @@ public class SellerAddEditBarangActivity extends AppCompatActivity {
                     .load(getResources().getString(R.string.url) + "/produk/" + produk.getGambar())
                     .into(binding.imgPlaceholderProduk);
             BitmapDrawable currentImage = (BitmapDrawable)binding.imgPlaceholderProduk.getDrawable();
+
             bitmap = currentImage.getBitmap();
         }
         getkategori();
@@ -71,6 +72,7 @@ public class SellerAddEditBarangActivity extends AppCompatActivity {
     }
 
     public void chooseFile(View v){
+
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
