@@ -1,14 +1,17 @@
 package com.example.proyek_mobcomp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.proyek_mobcomp.databinding.ActivityAdminBinding;
 import com.example.proyek_mobcomp.databinding.ActivityMainBinding;
+import com.example.proyek_mobcomp.databinding.FragmentAdminConfTopUpBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class AdminActivity extends AppCompatActivity {
@@ -16,6 +19,9 @@ public class AdminActivity extends AppCompatActivity {
     protected ActivityAdminBinding binding;
 
     public static String login;
+
+    AdminConfTopUpFragment adminConfTopUpFragment;
+    AdminConfWithdrawFragment adminConfWithdrawFragment;
 
     public void showFragment(int idx) {
         Bundle bundle = new Bundle();
@@ -33,17 +39,17 @@ public class AdminActivity extends AppCompatActivity {
             fragmentTransaction.replace(R.id.frContainer, adminMasterUserFragment);
             fragmentTransaction.commit();
         }else if (idx == 2){
-//            AdminDashboardFragment adminDashboardFragment = new AdminDashboardFragment();
-//            adminDashboardFragment.setArguments(bundle);
-//            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//            fragmentTransaction.replace(R.id.frContainer, adminDashboardFragment);
-//            fragmentTransaction.commit();
+            adminConfTopUpFragment = new AdminConfTopUpFragment();
+            adminConfTopUpFragment.setArguments(bundle);
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frContainer, adminConfTopUpFragment);
+            fragmentTransaction.commit();
         }else if (idx == 3){
-//            AdminDashboardFragment adminDashboardFragment = new AdminDashboardFragment();
-//            adminDashboardFragment.setArguments(bundle);
-//            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//            fragmentTransaction.replace(R.id.frContainer, adminDashboardFragment);
-//            fragmentTransaction.commit();
+            adminConfWithdrawFragment = new AdminConfWithdrawFragment();
+            adminConfWithdrawFragment.setArguments(bundle);
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frContainer, adminConfWithdrawFragment);
+            fragmentTransaction.commit();
         }
 
     }
@@ -78,5 +84,16 @@ public class AdminActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 100){ // dari konfirmasi top up
+            adminConfTopUpFragment.getTopUpData();
+        }else if (requestCode == 110){ // dari konfirmasi withdraw
+            adminConfWithdrawFragment.getTopUpData();
+        }
     }
 }

@@ -1,31 +1,36 @@
 package com.example.proyek_mobcomp.recyclerviewFolder;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.proyek_mobcomp.AdminConfTopUpDetailActivity;
 import com.example.proyek_mobcomp.R;
 import com.example.proyek_mobcomp.classFolder.cTopup;
+import com.example.proyek_mobcomp.classFolder.cUser;
 
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Locale;
 
-public class RecyclerAdapterSellerTopup extends RecyclerView.Adapter<RecyclerAdapterSellerTopup.ViewHolder> {
+public class RecyclerAdapterAdminConfTopUp extends RecyclerView.Adapter<RecyclerAdapterAdminConfTopUp.ViewHolder> {
+    ArrayList<cTopup> arrTopUp = new ArrayList<>();
+    ArrayList<cUser> arrUser = new ArrayList<>();
 
-    ArrayList<cTopup> listTopup = new ArrayList<>();
-
-    public RecyclerAdapterSellerTopup(ArrayList<cTopup> listTopup) {
-        this.listTopup = listTopup;
+    public RecyclerAdapterAdminConfTopUp(ArrayList<cTopup> arrTopUp, ArrayList<cUser> arrUser) {
+        this.arrTopUp = arrTopUp;
+        this.arrUser = arrUser;
     }
 
     @NonNull
@@ -34,42 +39,43 @@ public class RecyclerAdapterSellerTopup extends RecyclerView.Adapter<RecyclerAda
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        View contactView = inflater.inflate(R.layout.item_topup_seller, parent, false);
+        View contactView = inflater.inflate(R.layout.item_layout_admin_conf_top_up, parent, false);
 
-        RecyclerAdapterSellerTopup.ViewHolder viewHolder = new RecyclerAdapterSellerTopup.ViewHolder(contactView);
+        ViewHolder viewHolder = new ViewHolder(contactView);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        cTopup topup = listTopup.get(position);
+        cTopup topup = arrTopUp.get(position);
         holder.bind(topup, position);
     }
 
     @Override
     public int getItemCount() {
-        return listTopup.size();
+        return arrTopUp.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-
+        LinearLayout ll;
         TextView txtID;
         TextView txtStatus;
         TextView txtTanggal;
         TextView txtJumlah;
-
+        TextView txtNama;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
-            txtID = itemView.findViewById(R.id.txtIdCairkanSaldo);
-            txtStatus = itemView.findViewById(R.id.txtStatusCairkanSaldo);
-            txtTanggal = itemView.findViewById(R.id.txtTanggalCairkanSaldo);
-            txtJumlah = itemView.findViewById(R.id.txtJumlahCairkanSaldo);
+            ll = itemView.findViewById(R.id.ll);
+            txtID = itemView.findViewById(R.id.txtIdTopUp);
+            txtStatus = itemView.findViewById(R.id.txtStatusTopUp);
+            txtTanggal = itemView.findViewById(R.id.txtTanggalTopUp);
+            txtJumlah = itemView.findViewById(R.id.txtJumlahTopUp);
+            txtNama = itemView.findViewById(R.id.txtNama);
         }
 
         @RequiresApi(api = Build.VERSION_CODES.N)
         public void bind(cTopup topup, int position) {
-            txtID.setText("Pencairan #" + topup.getId());
+            txtID.setText("Top Up ID #" + topup.getId());
 
             SimpleDateFormat input = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
             SimpleDateFormat output = new SimpleDateFormat("dd MMM yyyy");
@@ -99,6 +105,22 @@ public class RecyclerAdapterSellerTopup extends RecyclerView.Adapter<RecyclerAda
                 txtStatus.setText("Status : Rejected");
                 txtStatus.setTextColor(itemView.getResources().getColor(R.color.red));
             }
+
+            for (int i = 0; i < arrUser.size(); i++){
+                if (arrUser.get(i).getUsername().equals(topup.getFk_username())){
+                    txtNama.setText("Nama : " + arrUser.get(i).getNama());
+                }
+            }
+
+
+            ll.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(itemView.getContext(), AdminConfTopUpDetailActivity.class);
+                    i.putExtra("idtopup", topup.getId());
+                    ((Activity)itemView.getContext()).startActivityForResult(i, 100);
+                }
+            });
         }
     }
 }

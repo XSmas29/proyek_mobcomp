@@ -132,7 +132,13 @@ public class cDetailPurchase implements Parcelable {
     }
 
     public String getNotes_seller() {
-        return notes_seller;
+
+        if (notes_seller.equalsIgnoreCase("null")){
+            return "";
+        }
+        else{
+            return notes_seller;
+        }
     }
 
     public void setNotes_seller(String notes_seller) {

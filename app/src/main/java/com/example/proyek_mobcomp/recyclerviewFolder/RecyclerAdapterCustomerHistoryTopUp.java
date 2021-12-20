@@ -18,14 +18,12 @@ import com.example.proyek_mobcomp.classFolder.cTopup;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Locale;
 
-public class RecyclerAdapterSellerTopup extends RecyclerView.Adapter<RecyclerAdapterSellerTopup.ViewHolder> {
+public class RecyclerAdapterCustomerHistoryTopUp extends RecyclerView.Adapter<RecyclerAdapterCustomerHistoryTopUp.ViewHolder> {
+    ArrayList<cTopup> arrTopup = new ArrayList<>();
 
-    ArrayList<cTopup> listTopup = new ArrayList<>();
-
-    public RecyclerAdapterSellerTopup(ArrayList<cTopup> listTopup) {
-        this.listTopup = listTopup;
+    public RecyclerAdapterCustomerHistoryTopUp(ArrayList<cTopup> arrTopup) {
+        this.arrTopup = arrTopup;
     }
 
     @NonNull
@@ -34,42 +32,39 @@ public class RecyclerAdapterSellerTopup extends RecyclerView.Adapter<RecyclerAda
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        View contactView = inflater.inflate(R.layout.item_topup_seller, parent, false);
+        View contactView = inflater.inflate(R.layout.item_layout_history_top_up, parent, false);
 
-        RecyclerAdapterSellerTopup.ViewHolder viewHolder = new RecyclerAdapterSellerTopup.ViewHolder(contactView);
+        ViewHolder viewHolder = new ViewHolder(contactView);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        cTopup topup = listTopup.get(position);
+        cTopup topup = arrTopup.get(position);
         holder.bind(topup, position);
     }
 
     @Override
     public int getItemCount() {
-        return listTopup.size();
+        return arrTopup.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-
         TextView txtID;
         TextView txtStatus;
         TextView txtTanggal;
         TextView txtJumlah;
-
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
-            txtID = itemView.findViewById(R.id.txtIdCairkanSaldo);
-            txtStatus = itemView.findViewById(R.id.txtStatusCairkanSaldo);
-            txtTanggal = itemView.findViewById(R.id.txtTanggalCairkanSaldo);
-            txtJumlah = itemView.findViewById(R.id.txtJumlahCairkanSaldo);
+            txtID = itemView.findViewById(R.id.txtIdTopUp);
+            txtStatus = itemView.findViewById(R.id.txtStatusTopUp);
+            txtTanggal = itemView.findViewById(R.id.txtTanggalTopUp);
+            txtJumlah = itemView.findViewById(R.id.txtJumlahTopUp);
         }
 
         @RequiresApi(api = Build.VERSION_CODES.N)
         public void bind(cTopup topup, int position) {
-            txtID.setText("Pencairan #" + topup.getId());
+            txtID.setText("Top Up ID #" + topup.getId());
 
             SimpleDateFormat input = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
             SimpleDateFormat output = new SimpleDateFormat("dd MMM yyyy");

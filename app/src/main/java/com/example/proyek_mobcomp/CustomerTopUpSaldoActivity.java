@@ -2,6 +2,7 @@ package com.example.proyek_mobcomp;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.app.Activity;
 import android.content.ContentResolver;
@@ -23,20 +24,29 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.proyek_mobcomp.classFolder.cTopup;
 import com.example.proyek_mobcomp.databinding.ActivityCustomerTopUpSaldoBinding;
+import com.example.proyek_mobcomp.recyclerviewFolder.RecyclerAdapterCustomerHistoryTopUp;
+import com.example.proyek_mobcomp.recyclerviewFolder.RecyclerAdapterHeaderPurchase;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class CustomerTopUpSaldoActivity extends AppCompatActivity {
 
     protected ActivityCustomerTopUpSaldoBinding binding;
+
+    ArrayList<cTopup> arrTopUp = new ArrayList<cTopup>();
+
+    RecyclerAdapterCustomerHistoryTopUp recyclerAdapterCustomerHistoryTopUp;
 
     Bitmap selectedImage = null;
     String ext = "";
@@ -133,8 +143,24 @@ public class CustomerTopUpSaldoActivity extends AppCompatActivity {
                                 Toast.makeText(getBaseContext(), message, Toast.LENGTH_LONG).show();
                             }else{
                                 binding.textViewJumlahSaldo.setText("MyWallet Balance : Rp " + saldo);
+
+                                JSONArray historyarray = jsonObject.getJSONArray("datatopup");
+                                arrTopUp = new ArrayList<>();
+                                for (int i = 0; i < historyarray.length();i++){
+                                    int id = historyarray.getJSONObject(i).getInt("id");
+                                    String fk_username = historyarray.getJSONObject(i).getString("fk_username");
+                                    int jumlah_topup = historyarray.getJSONObject(i).getInt("jumlah_topup");
+                                    String bukti_topup = historyarray.getJSONObject(i).getString("bukti_topup");
+                                    int status_topup = historyarray.getJSONObject(i).getInt("status_topup");
+                                    String created_at = historyarray.getJSONObject(i).getString("created_at");
+                                    String updated_at = historyarray.getJSONObject(i).getString("updated_at");
+
+                                    arrTopUp.add(new cTopup(id, fk_username, jumlah_topup, bukti_topup, status_topup, created_at, updated_at));
+                                }
+
+                                setRv();
                             }
-                            binding.progressBar.setVisibility(View.INVISIBLE);
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -158,6 +184,17 @@ public class CustomerTopUpSaldoActivity extends AppCompatActivity {
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this );
         requestQueue.add(stringRequest);
+    }
+
+    protected void setRv() {
+        binding.recyclerViewHistoryTopUp.setLayoutManager(new LinearLayoutManager(this));
+        binding.recyclerViewHistoryTopUp.setHasFixedSize(true);
+
+        recyclerAdapterCustomerHistoryTopUp = new RecyclerAdapterCustomerHistoryTopUp(
+                arrTopUp
+        );
+        binding.recyclerViewHistoryTopUp.setAdapter(recyclerAdapterCustomerHistoryTopUp);
+        binding.progressBar.setVisibility(View.INVISIBLE);
     }
 
     private void tambahSaldo() {

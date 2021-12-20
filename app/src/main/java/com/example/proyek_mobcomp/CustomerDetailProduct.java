@@ -46,7 +46,7 @@ public class CustomerDetailProduct extends AppCompatActivity {
 
     AppDatabase db;
 
-    cProduct product;
+    cProduct product = null;
     ArrayList<cProduct> arrRecommendationProduct = new ArrayList<>();
     ArrayList<cReview> arrReview = new ArrayList<>();
 
@@ -105,14 +105,17 @@ public class CustomerDetailProduct extends AppCompatActivity {
         binding.imageButtonPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                jumlah++;
-                binding.imageButtonMinus.setEnabled(true);
-                if (jumlah >= product.getStok()){
-                    jumlah = product.getStok();
-                    //Toast.makeText(getBaseContext(), "Jumlah lebih dari stok", Toast.LENGTH_SHORT).show();
-                    binding.imageButtonPlus.setEnabled(false);
+                if (product != null) {
+                    jumlah++;
+                    binding.imageButtonMinus.setEnabled(true);
+
+                    if (jumlah >= product.getStok()) {
+                        jumlah = product.getStok();
+                        //Toast.makeText(getBaseContext(), "Jumlah lebih dari stok", Toast.LENGTH_SHORT).show();
+                        binding.imageButtonPlus.setEnabled(false);
+                    }
+                    binding.editTextJumlah.setText(jumlah + "");
                 }
-                binding.editTextJumlah.setText(jumlah+"");
             }
         });
 
@@ -313,6 +316,8 @@ public class CustomerDetailProduct extends AppCompatActivity {
     }
 
     private void getAllProduct() {
+        binding.progressBar.setVisibility(View.VISIBLE);
+        binding.btnAddToCart.setEnabled(false);
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
                 getResources().getString(R.string.url) + "/customer/getallproduct",
@@ -472,6 +477,8 @@ public class CustomerDetailProduct extends AppCompatActivity {
                 arrReview
         );
         binding.recyclerViewCustReview.setAdapter(recyclerAdapterReview);
+        binding.progressBar.setVisibility(View.INVISIBLE);
+        binding.btnAddToCart.setEnabled(true);
     }
 
     protected void showProduct() {

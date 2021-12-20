@@ -16,6 +16,12 @@
         android:theme="@style/Theme.Proyek_Mobcomp"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".AdminConfWithdrawDetailActivity"
+            android:exported="true" />
+        <activity
+            android:name=".AdminConfTopUpDetailActivity"
+            android:exported="true" />
+        <activity
             android:name=".SellerProfileActivity"
             android:exported="true" />
         <activity
