@@ -57,18 +57,20 @@
             android:textColor="@color/black"
             android:textStyle="bold"
             android:layout_marginBottom="5dp"/>
+
         <TextView
-            android:id="@+id/textView_jumCustBaru"
+            android:id="@+id/textView_jumCust"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ada n Customer baru lho 1 minggu ini!"
-            android:layout_marginBottom="5dp"/>
+            android:layout_marginBottom="5dp"
+            android:text="Ada x Customer yang sudah terdaftar di MyItem" />
+
         <TextView
-            android:id="@+id/textView_jumSellerBaru"
+            android:id="@+id/textView_jumSeller"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ada n Seller baru bergabung 1 minggu ini!"
-            android:layout_marginBottom="5dp"/>
+            android:layout_marginBottom="5dp"
+            android:text="Ada x Seller yang sudah terdaftar di MyItem" />
         <TextView
             android:id="@+id/textView_jumTopUpBaru"
             android:layout_width="match_parent"

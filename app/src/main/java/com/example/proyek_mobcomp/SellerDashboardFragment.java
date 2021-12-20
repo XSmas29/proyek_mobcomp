@@ -72,6 +72,10 @@ public class SellerDashboardFragment extends Fragment {
     }
 
     private void getData() {
+        jumlahcomplete = 0;
+        jumlahreject = 0;
+        jumlahprocess = 0;
+        totalincome = 0;
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
                 getResources().getString(R.string.url) + "/seller/getdata",
