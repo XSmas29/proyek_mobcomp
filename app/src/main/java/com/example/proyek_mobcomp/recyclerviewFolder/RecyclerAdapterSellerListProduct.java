@@ -72,7 +72,7 @@ public class RecyclerAdapterSellerListProduct extends RecyclerView.Adapter<Recyc
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            imgProduk = itemView.findViewById(R.id.imgSellerGambarTransaksi);
+            imgProduk = itemView.findViewById(R.id.imgSellerGambarDetail);
             txtNamaProduk = itemView.findViewById(R.id.lbNamaListProduk);
             txtHargaProduk = itemView.findViewById(R.id.lbHargaListProduk);
             txtStokProduk = itemView.findViewById(R.id.lbStokListProduk);

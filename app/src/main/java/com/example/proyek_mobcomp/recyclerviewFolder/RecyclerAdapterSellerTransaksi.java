@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.proyek_mobcomp.R;
 import com.example.proyek_mobcomp.classFolder.cDetailPurchase;
 import com.example.proyek_mobcomp.classFolder.cProduct;
-import com.example.proyek_mobcomp.classFolder.cTopup;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -77,7 +75,7 @@ public class RecyclerAdapterSellerTransaksi extends RecyclerView.Adapter<Recycle
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            imgTrans = itemView.findViewById(R.id.imgSellerGambarTransaksi);
+            imgTrans = itemView.findViewById(R.id.imgSellerGambarDetail);
             txtIDTrans = itemView.findViewById(R.id.txtSellerIDTransaksi);
             txtNamaTrans = itemView.findViewById(R.id.txtSellerNamaTransaksi);
             txtTotalTrans = itemView.findViewById(R.id.txtSellerTotalTransaksi);

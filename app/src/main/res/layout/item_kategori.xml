@@ -34,7 +34,7 @@
             android:padding="4dp">
 
             <ImageView
-                android:id="@+id/imgSellerGambarTransaksi"
+                android:id="@+id/imgSellerGambarDetail"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 app:layout_constraintStart_toStartOf="parent"
