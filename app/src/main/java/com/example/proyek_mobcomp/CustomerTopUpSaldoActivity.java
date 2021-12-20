@@ -68,7 +68,6 @@ public class CustomerTopUpSaldoActivity extends AppCompatActivity {
         getJumlahSaldo();
         getBukti();
         tambahSaldo();
-
     }
 
     public void getBukti() {

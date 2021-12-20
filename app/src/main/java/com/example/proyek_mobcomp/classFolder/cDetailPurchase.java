@@ -1,6 +1,9 @@
 package com.example.proyek_mobcomp.classFolder;
 
-public class cDetailPurchase {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class cDetailPurchase implements Parcelable {
     protected int id;
     protected int fk_htrans;
     protected int fk_barang;
@@ -29,6 +32,32 @@ public class cDetailPurchase {
         this.notes_seller = notes_seller;
         this.notes_customer = notes_customer;
     }
+
+    protected cDetailPurchase(Parcel in) {
+        id = in.readInt();
+        fk_htrans = in.readInt();
+        fk_barang = in.readInt();
+        jumlah = in.readInt();
+        subtotal = in.readInt();
+        rating = in.readInt();
+        review = in.readString();
+        fk_seller = in.readString();
+        status = in.readString();
+        notes_seller = in.readString();
+        notes_customer = in.readString();
+    }
+
+    public static final Creator<cDetailPurchase> CREATOR = new Creator<cDetailPurchase>() {
+        @Override
+        public cDetailPurchase createFromParcel(Parcel in) {
+            return new cDetailPurchase(in);
+        }
+
+        @Override
+        public cDetailPurchase[] newArray(int size) {
+            return new cDetailPurchase[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -116,5 +145,25 @@ public class cDetailPurchase {
 
     public void setNotes_customer(String notes_customer) {
         this.notes_customer = notes_customer;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeInt(fk_htrans);
+        parcel.writeInt(fk_barang);
+        parcel.writeInt(jumlah);
+        parcel.writeInt(subtotal);
+        parcel.writeInt(rating);
+        parcel.writeString(review);
+        parcel.writeString(fk_seller);
+        parcel.writeString(status);
+        parcel.writeString(notes_seller);
+        parcel.writeString(notes_customer);
     }
 }

@@ -37,7 +37,7 @@
                     app:cardCornerRadius="8dp">
 
                     <ImageView
-                        android:id="@+id/imgListProduk"
+                        android:id="@+id/imgSellerGambarTransaksi"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
 

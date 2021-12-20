@@ -69,7 +69,7 @@ public class RecyclerAdapterCustomerSearchProduct extends RecyclerView.Adapter<R
             super(itemView);
 
             cardProduk = itemView.findViewById(R.id.cardProdukSearchGrid);
-            imgProduct = itemView.findViewById(R.id.imgListProduk);
+            imgProduct = itemView.findViewById(R.id.imgSellerGambarTransaksi);
             namaProduct = itemView.findViewById(R.id.lbNamaListProduk);
             hargaProduct = itemView.findViewById(R.id.lbHargaListProduk);
 

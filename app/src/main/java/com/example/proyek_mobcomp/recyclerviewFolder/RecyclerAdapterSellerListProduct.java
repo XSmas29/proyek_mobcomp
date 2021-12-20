@@ -1,23 +1,18 @@
 package com.example.proyek_mobcomp.recyclerviewFolder;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyek_mobcomp.R;
-import com.example.proyek_mobcomp.SellerAddEditBarangActivity;
-import com.example.proyek_mobcomp.SellerListBarangFragment;
 import com.example.proyek_mobcomp.classFolder.cProduct;
-import com.example.proyek_mobcomp.classFolder.cReview;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -77,7 +72,7 @@ public class RecyclerAdapterSellerListProduct extends RecyclerView.Adapter<Recyc
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            imgProduk = itemView.findViewById(R.id.imgListProduk);
+            imgProduk = itemView.findViewById(R.id.imgSellerGambarTransaksi);
             txtNamaProduk = itemView.findViewById(R.id.lbNamaListProduk);
             txtHargaProduk = itemView.findViewById(R.id.lbHargaListProduk);
             txtStokProduk = itemView.findViewById(R.id.lbStokListProduk);
