@@ -28,7 +28,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.proyek_mobcomp.classFolder.cUser;
-import com.example.proyek_mobcomp.databinding.ActivityCustomerProfileBinding;
 import com.example.proyek_mobcomp.databinding.ActivitySellerProfileBinding;
 import com.squareup.picasso.Picasso;
 

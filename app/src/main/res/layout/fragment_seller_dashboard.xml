@@ -23,37 +23,73 @@
         android:id="@+id/txtWelcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="128dp"
         android:layout_marginTop="48dp"
         android:text="Welcome, -"
         android:textColor="@color/black"
         android:textSize="26sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
     <TextView
-        android:id="@+id/txtWelcome2"
+        android:id="@+id/txtDashboardJumlah1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="188dp"
-        android:text="Hai - , Kamu Sudah Menjual x Barang!"
+        android:layout_marginTop="24dp"
+        android:text="Kamu Sudah Menyelesaikan x Transaksi"
         android:textColor="@color/black"
         android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/txtDashboardJumlah3" />
 
     <TextView
-        android:id="@+id/txtWelcome3"
+        android:id="@+id/txtDashboardJumlah3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="156dp"
-        android:text="Saldo : Rp."
+        android:layout_marginTop="24dp"
+        android:text="Ada x Transaksi yang harus kamu selesaikan"
         android:textColor="@color/black"
         android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/txtDashboardSaldo" />
+
+    <TextView
+        android:id="@+id/txtDashboardJumlah2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:text="Kamu Sudah Mereject x Transaksi"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtDashboardJumlah1" />
+
+    <TextView
+        android:id="@+id/txtDashboardJumlah4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:text="Total Pendapatanmu adalah Rp. 0"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtDashboardJumlah2" />
+
+    <TextView
+        android:id="@+id/txtDashboardSaldo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="80dp"
+        android:text="Saldo-mu : Rp."
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtWelcome" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

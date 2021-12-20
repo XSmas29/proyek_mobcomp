@@ -98,12 +98,14 @@
                     android:text=""
                     android:textSize="12sp"
                     android:textColor="@color/black"/>
+
                 <EditText
                     android:id="@+id/etRegisterUsernameSeller"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:ems="10"
+                    android:enabled="false"
                     android:hint="Username"
                     android:inputType="textPersonName"
                     android:minHeight="48dp"
@@ -157,7 +159,7 @@
                     android:layout_marginTop="8dp"
                     android:ems="10"
                     android:hint="Nama Toko"
-                    android:inputType="number"
+                    android:inputType="text"
                     android:minHeight="48dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
