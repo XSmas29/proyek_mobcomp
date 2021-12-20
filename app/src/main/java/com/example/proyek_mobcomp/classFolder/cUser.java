@@ -5,6 +5,23 @@ import android.os.Parcelable;
 
 public class cUser implements Parcelable {
     protected String username, password, email, nama, rekening, saldo, toko, role, gambar;
+    protected int status, is_verified;
+
+    public cUser(String username, String password, String email
+            , String nama, String rekening, String saldo, String toko
+            , String role, String gambar, int status, int is_verified) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.nama = nama;
+        this.rekening = rekening;
+        this.saldo = saldo;
+        this.toko = toko;
+        this.role = role;
+        this.gambar = gambar;
+        this.status = status;
+        this.is_verified = is_verified;
+    }
 
     public cUser(String username, String password, String email, String nama, String rekening, String saldo, String toko, String role, String gambar) {
         this.username = username;
@@ -48,6 +65,22 @@ public class cUser implements Parcelable {
             return new cUser[size];
         }
     };
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public int getIs_verified() {
+        return is_verified;
+    }
+
+    public void setIs_verified(int is_verified) {
+        this.is_verified = is_verified;
+    }
 
     public String getUsername() {
         return username;

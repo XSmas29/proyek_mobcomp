@@ -19,6 +19,9 @@
             android:name=".SellerDetailTransaksiActivity"
             android:exported="true" />
         <activity
+            android:name=".AdminUserProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".CustomerProfileActivity"
             android:exported="false" />
         <activity

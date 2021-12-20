@@ -15,7 +15,7 @@ public class AdminActivity extends AppCompatActivity {
 
     protected ActivityAdminBinding binding;
 
-    String login;
+    public static String login;
 
     public void showFragment(int idx) {
         Bundle bundle = new Bundle();
@@ -26,7 +26,26 @@ public class AdminActivity extends AppCompatActivity {
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.frContainer, adminDashboardFragment);
             fragmentTransaction.commit();
+        }else if (idx == 1){
+            AdminMasterUserFragment adminMasterUserFragment = new AdminMasterUserFragment();
+            adminMasterUserFragment.setArguments(bundle);
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frContainer, adminMasterUserFragment);
+            fragmentTransaction.commit();
+        }else if (idx == 2){
+//            AdminDashboardFragment adminDashboardFragment = new AdminDashboardFragment();
+//            adminDashboardFragment.setArguments(bundle);
+//            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//            fragmentTransaction.replace(R.id.frContainer, adminDashboardFragment);
+//            fragmentTransaction.commit();
+        }else if (idx == 3){
+//            AdminDashboardFragment adminDashboardFragment = new AdminDashboardFragment();
+//            adminDashboardFragment.setArguments(bundle);
+//            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//            fragmentTransaction.replace(R.id.frContainer, adminDashboardFragment);
+//            fragmentTransaction.commit();
         }
+
     }
 
     @Override

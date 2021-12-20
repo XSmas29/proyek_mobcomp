@@ -52,7 +52,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="News"
+            android:text="Berita"
             android:textSize="20sp"
             android:textColor="@color/black"
             android:textStyle="bold"
@@ -67,16 +67,19 @@
             android:id="@+id/textView_jumSellerBaru"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ada n Seller baru bergabung 1 minggu ini!"/>
+            android:text="Ada n Seller baru bergabung 1 minggu ini!"
+            android:layout_marginBottom="5dp"/>
         <TextView
             android:id="@+id/textView_jumTopUpBaru"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ada n Top Up yang belum dikonfirmasi!"/>
+            android:text="Ada n Top Up yang belum dikonfirmasi!"
+            android:layout_marginBottom="5dp"/>
         <TextView
             android:id="@+id/textView_jumWithdrawBaru"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ada n Withdraw yang belum dikonfirmasi!"/>
+            android:text="Ada n Withdraw yang belum dikonfirmasi!"
+            android:layout_marginBottom="5dp"/>
     </LinearLayout>
 </LinearLayout>
